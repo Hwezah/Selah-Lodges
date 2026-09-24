@@ -1,0 +1,334 @@
+// Content and configuration lifted from the design prototype
+// (`docs/handoff/Selah Lodges.dc.html`). Copy is final unless noted.
+
+export const CONFIG = {
+  tillNumber: "MTN 0776 401100",
+  tillName: "Peninah Baluti · or Airtel 0751 401198",
+  adminWhatsApp: "256776401100",
+  ugxRate: 3800,
+  cleaningFee: 10,
+  serviceFeePct: 11,
+  taxPct: 7.45,
+  enableSplitPay: true,
+  // Placeholder availability until bookings live in a database.
+  showBlockedDates: true,
+  phones: ["+256 776 401 100", "+256 751 401 198"],
+  email: "reservations@selahlodges.com",
+} as const;
+
+export type ApartmentId = "apartment-1" | "apartment-2";
+
+export type Apartment = {
+  id: ApartmentId;
+  name: string;
+  kind: string;
+  loc: string;
+  price: number;
+  sleeps: string;
+  tag: string;
+  desc: string;
+  amenities: string[];
+  images: [string, string, string];
+  specs: { area: string; guests: string; beds: string; baths: string };
+};
+
+const DESC =
+  "Relax in a beautifully furnished room where every piece is chosen for comfort and style. Soft bedding, elegant furniture, and thoughtful décor create a warm, inviting atmosphere that makes you feel right at home. Modern conveniences like high-speed Wi-Fi, a flat-screen TV and air conditioning ensure a comfortable stay, while large windows fill the apartment with natural light.";
+
+const AMENITIES = [
+  "Cooker with oven",
+  "Cookware",
+  "Room cooling",
+  "Cable TV",
+  "Heated water",
+  "Laundry (at a fee)",
+  "Blender",
+  "Coffee machine",
+  "Microwave",
+  "In-room refrigerator",
+  "Free WiFi",
+  "Air conditioning",
+  "Secure parking space",
+];
+
+const SPECS = { area: "560 ft²", guests: "2 Guests", beds: "1 Bed", baths: "1 Bathroom" };
+
+// The bedroom photos are deliberately swapped between the apartments.
+export const APARTMENTS: Apartment[] = [
+  {
+    id: "apartment-1",
+    name: "One-Bed Apartment 1",
+    kind: "Apartment 1",
+    loc: "Komamboga | Kyanja, Kampala",
+    price: 50,
+    sleeps: "Sleeps 2 · 1 bedroom",
+    tag: "USD 50/night",
+    desc: DESC,
+    amenities: AMENITIES,
+    images: ["/images/room1-living.jpg", "/images/room2-bedroom.jpg", "/images/room1-kitchen.jpg"],
+    specs: SPECS,
+  },
+  {
+    id: "apartment-2",
+    name: "One-Bed Apartment 2",
+    kind: "Apartment 2",
+    loc: "Komamboga | Kyanja, Kampala",
+    price: 50,
+    sleeps: "Sleeps 2 · 1 bedroom",
+    tag: "USD 50/night",
+    desc: DESC,
+    amenities: AMENITIES,
+    images: ["/images/room2-living.jpg", "/images/room1-bedroom.jpg", "/images/room2-kitchen.jpg"],
+    specs: SPECS,
+  },
+];
+
+export function getApartment(id: string | null | undefined): Apartment {
+  return APARTMENTS.find((a) => a.id === id) ?? APARTMENTS[0];
+}
+
+export const FILTERS = ["Both apartments", "Apartment 1", "Apartment 2"] as const;
+
+export const ICONS = {
+  area: ["M3.8 3.8h16.4v16.4H3.8z", "m9.6 14.4 4.8-4.8", "M9.6 11.6v2.8h2.8", "M14.4 12.4V9.6h-2.8"],
+  guests: [
+    "M9.4 11.2a3.3 3.3 0 1 0 0-6.6 3.3 3.3 0 0 0 0 6.6",
+    "M2.9 19.6a6.5 6.5 0 0 1 13 0",
+    "M15.8 5.2a3.1 3.1 0 0 1 0 5.9",
+    "M17.3 13.6a5.7 5.7 0 0 1 3.8 6",
+  ],
+  bed: ["M3 18.4v-6.6h18v6.6", "M3 18.4v2.2", "M21 18.4v2.2", "M6 11.8V8.2h12v3.6", "M8.6 11.8v-1.6h6.8v1.6"],
+  bath: [
+    "M2.8 12.6h18.4",
+    "M4.6 12.6v3.4a3.2 3.2 0 0 0 3.2 3.2h8.4a3.2 3.2 0 0 0 3.2-3.2v-3.4",
+    "M6.8 12.6V5.9a1.9 1.9 0 0 1 3.8 0",
+    "m7.4 19.4-1.2 2.2",
+    "m16.6 19.4 1.2 2.2",
+  ],
+  wifi: ["M2.9 9.1a13 13 0 0 1 18.2 0", "M6.1 12.5a8.4 8.4 0 0 1 11.8 0", "M9.3 15.9a4 4 0 0 1 5.4 0", "M12 19.3h.02"],
+  ac: ["M3.2 6.2h17.6v6.2H3.2z", "M6 15v3.2", "M10 15v3.2", "M14 15v3.2", "M18 15v3.2"],
+  parking: [
+    "M4.2 16.6h15.6",
+    "M6 16.6v2.2",
+    "M18 16.6v2.2",
+    "M4.6 16.6v-3.2l1.9-4.2h11l1.9 4.2v3.2",
+    "M7.4 13.6h.02",
+    "M16.6 13.6h.02",
+  ],
+  solar: [
+    "M12 7.6a4.4 4.4 0 1 0 0 8.8 4.4 4.4 0 0 0 0-8.8",
+    "M12 2.6v2.2",
+    "M12 19.2v2.2",
+    "M2.6 12h2.2",
+    "M19.2 12h2.2",
+    "m5.5 5.5 1.6 1.6",
+    "m16.9 16.9 1.6 1.6",
+    "m18.5 5.5-1.6 1.6",
+    "m7.1 16.9-1.6 1.6",
+  ],
+  security: ["M12 2.9 4.6 6v6.1c0 4.4 3.1 7.5 7.4 9 4.3-1.5 7.4-4.6 7.4-9V6z", "m8.9 12 2.2 2.2 4-4.4"],
+} as const;
+
+export type IconName = keyof typeof ICONS;
+export type Spec = { label: string; icon: IconName };
+
+/** The three specs overlaid on apartment cards. */
+export function cardSpecs(a: Apartment): Spec[] {
+  return [
+    { label: a.specs.area, icon: "area" },
+    { label: a.specs.guests, icon: "guests" },
+    { label: a.specs.beds, icon: "bed" },
+  ];
+}
+
+/** Full spec row on the detail page: base specs plus amenity-derived extras. */
+export function fullSpecs(a: Apartment): Spec[] {
+  const has = (re: RegExp) => a.amenities.some((x) => re.test(x));
+  const extras: (Spec & { on: boolean })[] = [
+    { on: has(/wifi/i), label: "Fibre wifi", icon: "wifi" },
+    { on: has(/\bAC\b|air condition/i), label: "Air conditioning", icon: "ac" },
+    {
+      on: has(/parking|bay/i),
+      label: has(/secure|compound/i) ? "Secure parking" : "Parking",
+      icon: "parking",
+    },
+    { on: has(/solar|generator|inverter|backup power/i), label: "Power backup", icon: "solar" },
+    { on: has(/security|gated/i), label: "24-hour security", icon: "security" },
+  ];
+  return [
+    { label: a.specs.area, icon: "area" as const },
+    { label: a.specs.guests, icon: "guests" as const },
+    { label: a.specs.beds, icon: "bed" as const },
+    { label: a.specs.baths, icon: "bath" as const },
+    ...extras.filter((x) => x.on).map(({ label, icon }) => ({ label, icon })),
+  ];
+}
+
+/** Amenities list minus the ones already shown as specs. */
+export function listedAmenities(a: Apartment): string[] {
+  const drop = /wifi|parking|bay|solar|generator|inverter|backup power|security|air condition/i;
+  return a.amenities.filter((x) => !drop.test(x));
+}
+
+export type ServiceCategory = "Services" | "Neighbourhood";
+export type Service = {
+  cat: ServiceCategory;
+  title: string;
+  meta: string;
+  body: string;
+  price: string;
+  image: string;
+};
+
+export const SERVICES: Service[] = [
+  {
+    cat: "Services",
+    title: "Laundry Services",
+    meta: "Priced by quantity",
+    body: "Keep your wardrobe fresh without the hassle during your stay. Pricing is provided when you book.",
+    price: "Quoted on booking",
+    image: "/images/svc-laundry.jpg",
+  },
+  {
+    cat: "Services",
+    title: "Cleaning Services",
+    meta: "Priced by room size & frequency",
+    body: "A fresh, tidy space throughout your stay, so your room is always comfortable and well-maintained.",
+    price: "Quoted on booking",
+    image: "/images/svc-cleaning.jpg",
+  },
+  {
+    cat: "Services",
+    title: "Car Wash Service",
+    meta: "Priced by vehicle size",
+    body: "Keep your vehicle spotless while you relax at Selah Lodges. Pricing depends on the type and size of vehicle.",
+    price: "Quoted on booking",
+    image: "/images/svc-carwash.jpg",
+  },
+  {
+    cat: "Neighbourhood",
+    title: "Supermarket",
+    meta: "Shopping · short walk",
+    body: "A well-stocked supermarket is a short walk away for essentials, snacks or fresh ingredients.",
+    price: "Nearby",
+    image: "/images/svc-supermarket.jpg",
+  },
+  {
+    cat: "Neighbourhood",
+    title: "Easy Access",
+    meta: "Location · major roads nearby",
+    body: "A well-connected neighbourhood, with major roads and transport close by for Komamboga, Kyanja and beyond.",
+    price: "Nearby",
+    image: "/images/svc-access.jpg",
+  },
+  {
+    cat: "Neighbourhood",
+    title: "Hangouts",
+    meta: "Proximity · cafés & outdoor spots",
+    body: "Plenty of spots to relax, meet friends or enjoy the neighbourhood, from cosy cafés to lively outdoor spaces.",
+    price: "Nearby",
+    image: "/images/svc-hangouts.jpg",
+  },
+];
+
+export const SERVICE_FILTERS = ["Everything", "Services", "Neighbourhood"] as const;
+
+export const NAV_ITEMS = [
+  { label: "Rooms", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Trips", href: "/trips" },
+  { label: "Contact", href: "/contact" },
+] as const;
+
+export const PERKS = [
+  { mark: "01", title: "Hotel-grade linens", body: "Percale sheets, six towels per guest, laundered off-site between every stay." },
+  { mark: "02", title: "Stocked kitchen", body: "Ugandan coffee, tea, sugar, oil and breakfast basics waiting when you arrive." },
+  { mark: "03", title: "Self check-in", body: "A gate and door code that is yours alone, active from 2pm on arrival day." },
+  { mark: "04", title: "Host on call", body: "A real person, one text away, from 7am to 10pm every day of your stay." },
+];
+
+// Only the review supplied by the client; add more as they come in.
+export const REVIEWS = [
+  {
+    quote:
+      "A truly relaxing stay. The rooms are spotless and beautifully furnished. The staff make you feel right at home, and the surroundings are wonderfully peaceful.",
+    who: "Elaine · Lecturer",
+  },
+];
+
+export const FAQS = [
+  {
+    q: "What's the cancellation policy?",
+    a: "Free cancellation up to 7 days before arrival. Within 7 days a 50% charge applies; within 3 days, or a no-show, the full booking is charged. Group bookings of three rooms or more need 30 days' notice, and promotional rates are final.",
+  },
+  {
+    q: "How do refunds work?",
+    a: "7+ days before arrival: full refund. 3–7 days: 50% refund. Within 3 days or no-show: non-refundable. Refunds go back to the original payment method within 7–14 business days.",
+  },
+  {
+    q: "Can I change my dates or leave early?",
+    a: "Date changes are welcome, subject to availability — changes within 7 days of arrival count as a cancellation and rebooking. Early departures are charged the full original reservation.",
+  },
+  {
+    q: "What are the house rules?",
+    a: "Selah is intentionally quiet and reflective: no parties or loud gatherings, please respect other guests and the environment, and observe check-in/check-out times and any pet or smoking rules.",
+  },
+];
+
+export const STATS = [
+  { n: "400", label: "Clients" },
+  { n: "4.0", label: "Years serving" },
+  { n: "1K+", label: "Nights" },
+  { n: "94%", label: "Satisfaction" },
+];
+
+export const TIMELINE = [
+  {
+    year: "2020",
+    title: "Founded",
+    body: "With a vision to be a leading sanctuary for personal transformation, inspiring guests to rise stronger after rest and reflection.",
+  },
+  {
+    year: "Who",
+    title: "Who we welcome",
+    body: "Personal retreats and spiritual renewal, guests recovering from burnout, writers, creatives and thinkers in need of solitude, and wellness travellers.",
+  },
+  { year: "Why", title: "Life in transition", body: "Anyone navigating grief, career changes, or personal growth journeys." },
+  {
+    year: "Décor",
+    title: "Elegance with tranquillity",
+    body: "Every accent is carefully selected to foster a warm, inviting, reflective atmosphere — stylish and calming.",
+  },
+];
+
+export const CONTACT_CARDS = [
+  {
+    label: "Direct reservations",
+    value: "+256 776 401 100 · +256 751 401 198",
+    note: "Call or WhatsApp either line to book.",
+  },
+  { label: "Selah address", value: "Komamboga | Kyanja — Proximity", note: "Selah Lodges, Kampala." },
+  {
+    label: "Approximate travel time",
+    value: "30 minutes from Kampala City",
+    note: "Even with traffic — the perfect escape from the hustle and bustle.",
+  },
+];
+
+export const BANK_ROWS = [
+  { label: "Bank", value: "To confirm with Selah" },
+  { label: "Account name", value: "Selah Lodges Ltd" },
+  { label: "Account number", value: "To confirm" },
+  { label: "Branch / SWIFT", value: "To confirm" },
+];
+
+export type PayMethod = "Mobile Money" | "Bank transfer" | "Card" | "Apple Pay" | "PayPal";
+
+export const PAY_METHODS: { label: PayMethod; note: string; tag?: string; off?: boolean }[] = [
+  { label: "Mobile Money", note: "MTN 0776 401100 or Airtel 0751 401198 — Peninah Baluti", tag: "Recommended" },
+  { label: "Bank transfer", note: "Direct bank transfer — details below" },
+  { label: "Card", note: "DPO Pay (Visa & Mastercard) — coming soon", off: true },
+  { label: "Apple Pay", note: "Coming soon", off: true },
+  { label: "PayPal", note: "Coming soon", off: true },
+];

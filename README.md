@@ -1,47 +1,71 @@
 # Selah Lodges
 
-Lodge booking app built with:
+Booking site for Selah Lodges, two one-bed serviced apartments in Komamboga | Kyanja, Kampala.
+Rebuilt from the high-fidelity prototype in [`docs/handoff/`](docs/handoff/README.md).
 
-- **Next.js 16** (App Router, TypeScript, `src/` dir, Turbopack)
-- **Tailwind CSS v4**
-- **shadcn/ui** (new-york style, neutral base — `components.json`)
-- **Clerk** for authentication (`src/proxy.ts` protects `/dashboard`)
-- **React Context API** for client state (`src/context/`)
-- Supabase planned (placeholders in `.env.example`)
+**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · Clerk auth · React Context for state.
+Supabase is planned for persistence.
 
 ## Getting started
 
 ```bash
 npm install
-cp .env.example .env.local   # add your Clerk keys
+cp .env.example .env.local   # add Clerk keys (optional in dev: keyless mode)
 npm run dev
 ```
 
-Open http://localhost:3000. Without keys, Clerk runs in keyless dev mode and
-prints a link to claim a temporary application.
+## Routes
 
-## Project structure
+| Route | What it is |
+| --- | --- |
+| `/` | Hero + search, photo collage, apartment cards, inclusions, reviews, FAQ |
+| `/apartments/[id]` | Gallery, specs, amenities, booking card (calendar + price breakdown) |
+| `/services` | Services & neighbourhood cards; add services to the trip cart |
+| `/about`, `/contact` | Founder story, stats, vision; enquiry form (opens email) + contact cards |
+| `/checkout` | Guest details, payment method (Mobile Money / bank), split pay, totals |
+| `/checkout/pending` | Payment claim recorded, awaiting admin confirmation |
+| `/checkout/done` | Confirmed booking (return target for card payments) |
+| `/trips` | The guest's bookings, check-in details, message the host |
+| `/admin` | Confirm or decline Mobile Money/bank orders (Clerk sign-in + admin role) |
+
+## Where things live
 
 ```
 src/
-  app/
-    layout.tsx               # ClerkProvider + AppProviders + header
-    page.tsx                 # Landing page
-    dashboard/               # Protected route (requires sign-in)
-    sign-in/[[...sign-in]]/  # Clerk <SignIn />
-    sign-up/[[...sign-up]]/  # Clerk <SignUp />
-  components/
-    ui/                      # shadcn components
-    layout/                  # Site header, etc.
+  app/                    routes (see above), layout, icons, metadata
+  components/site/        header (cart, notifications, account, drawer), footer,
+                          book bar, calendar, toaster, scroll reveal, shared UI
+  components/booking/     booking card, checkout, pending, done, trips
   context/
-    app-providers.tsx        # Composes all client providers
-    booking-context.tsx      # Booking draft state + useBooking()
-  lib/utils.ts               # cn() helper
-  proxy.ts                   # Clerk middleware (Next 16 "proxy" convention)
+    ui-context.tsx        toasts, notifications, which panel is open
+    booking-context.tsx   trip draft (apartment, dates, guests, cart), currency,
+                          checkout form, orders
+  lib/
+    data.ts               apartments, services, copy, config (till numbers, fees…)
+    booking.ts            pricing, dates/calendar, currency, phone, WhatsApp helpers
+  proxy.ts                Clerk middleware — protects /admin
+public/images/            client photos (compressed JPEG)
 ```
 
-## Adding shadcn components
+**Breakpoints** match the prototype's width tiers and are defined in `globals.css`:
+`xs` 520 · `sm` 640 · `md` 760 · `lg` 900 · `xl` 1000 · `2xl` 1400.
+
+**Admin access:** set `{ "role": "admin" }` in a user's Clerk public metadata, or list their email in
+`ADMIN_EMAILS`.
+
+## Screenshots at every breakpoint
 
 ```bash
-npx shadcn@latest add dialog
+npm run build && npm start
+npm run capture   # writes screenshots/<width>/<route>.png
 ```
+
+## Known limitations / next steps
+
+- **Orders live in the browser** (`localStorage`, `selah.*` keys). The admin console only sees orders made
+  on the same device until bookings move to Supabase.
+- **Blocked calendar days are a placeholder pattern** (`isBlocked` in `lib/booking.ts`) until real
+  availability comes from the database.
+- **SMS/email is not sent** — confirmations are notifications in the UI only.
+- **Card payments (DPO Pay)** are shown as "coming soon"; see the handoff README for the integration plan.
+- The supermarket card uses a placeholder photo (`svc-supermarket.jpg`) — no supermarket image was supplied.
