@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Design handoff (prototype runtime), kept for reference only.
+    "docs/**",
+    "screenshots/**",
   ]),
 ]);
 
