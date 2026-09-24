@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Jost, Marcellus } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 
 import { BookBar, ShellPadding } from "@/components/site/book-bar";
 import { SiteFooter } from "@/components/site/footer";
@@ -50,31 +49,19 @@ export const viewport: Viewport = { themeColor: "#B9975B" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <ClerkProvider
-      appearance={{
-        variables: {
-          colorPrimary: "#B9975B",
-          colorForeground: "#1C1917",
-          colorMutedForeground: "#78716C",
-          fontFamily: "var(--font-jost), system-ui, sans-serif",
-          borderRadius: "0.75rem",
-        },
-      }}
-    >
-      <html lang="en" className={`${jost.variable} ${marcellus.variable}`}>
-        <body>
-          <AppProviders>
-            <ShellPadding>
-              <SiteHeader />
-              <div className="flex flex-1 flex-col">{children}</div>
-              <SiteFooter />
-            </ShellPadding>
-            <BookBar />
-            <Toaster />
-            <RevealObserver />
-          </AppProviders>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className={`${jost.variable} ${marcellus.variable}`}>
+      <body>
+        <AppProviders>
+          <ShellPadding>
+            <SiteHeader />
+            <div className="flex flex-1 flex-col">{children}</div>
+            <SiteFooter />
+          </ShellPadding>
+          <BookBar />
+          <Toaster />
+          <RevealObserver />
+        </AppProviders>
+      </body>
+    </html>
   );
 }

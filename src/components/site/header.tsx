@@ -1,6 +1,5 @@
 "use client";
 
-import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -32,7 +31,6 @@ function timeAgo(at: number) {
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const { isSignedIn } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-stone-50/85 backdrop-blur-md">
@@ -66,22 +64,6 @@ export function SiteHeader() {
         <div className="ml-auto flex flex-none items-center gap-[clamp(2px,1.5vw,10px)]">
           <CartMenu />
           <NotificationsMenu />
-          {isSignedIn ? (
-            <UserButton appearance={{ elements: { avatarBox: "size-7" } }}>
-              <UserButton.MenuItems>
-                <UserButton.Link label="Your trips" labelIcon={<TripsIcon />} href="/trips" />
-              </UserButton.MenuItems>
-            </UserButton>
-          ) : (
-            <SignInButton mode="modal">
-              <button type="button" aria-label="Sign in" className={iconBtn}>
-                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="8.2" r="3.9" />
-                  <path d="M4.6 20.2a7.4 7.4 0 0 1 14.8 0" />
-                </svg>
-              </button>
-            </SignInButton>
-          )}
           <Link
             href="/#stays"
             className="hidden h-[38px] flex-none items-center whitespace-nowrap rounded-[10px] bg-gold px-[clamp(12px,3vw,16px)] text-[13.5px] font-medium text-stone-50 hover:bg-gold-hover hover:text-stone-50 sm:inline-flex"
@@ -96,14 +78,6 @@ export function SiteHeader() {
   );
 }
 
-function TripsIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <rect x="3" y="6" width="18" height="14" rx="2" />
-      <path d="M8 6V4h8v2" />
-    </svg>
-  );
-}
 
 function CartMenu() {
   const { panel, togglePanel, closePanels, openPanel, openPanelAfterNav, toast } = useUI();

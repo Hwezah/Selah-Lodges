@@ -3,14 +3,13 @@
 Booking site for Selah Lodges, two one-bed serviced apartments in Komamboga | Kyanja, Kampala.
 Rebuilt from the high-fidelity prototype in [`docs/handoff/`](docs/handoff/README.md).
 
-**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · Clerk auth · React Context for state.
-Supabase is planned for persistence.
+**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · React Context for state.
+Clerk auth and Supabase persistence are planned; no environment variables are required today.
 
 ## Getting started
 
 ```bash
 npm install
-cp .env.example .env.local   # add Clerk keys (optional in dev: keyless mode)
 npm run dev
 ```
 
@@ -26,7 +25,7 @@ npm run dev
 | `/checkout/pending` | Payment claim recorded, awaiting admin confirmation |
 | `/checkout/done` | Confirmed booking (return target for card payments) |
 | `/trips` | The guest's bookings, check-in details, message the host |
-| `/admin` | Confirm or decline Mobile Money/bank orders (Clerk sign-in + admin role) |
+| `/admin` | Placeholder until admin sign-in lands; the order console is in `components/admin/` |
 
 ## Where things live
 
@@ -43,15 +42,11 @@ src/
   lib/
     data.ts               apartments, services, copy, config (till numbers, fees…)
     booking.ts            pricing, dates/calendar, currency, phone, WhatsApp helpers
-  proxy.ts                Clerk middleware — protects /admin
 public/images/            client photos (compressed JPEG)
 ```
 
 **Breakpoints** match the prototype's width tiers and are defined in `globals.css`:
 `xs` 520 · `sm` 640 · `md` 760 · `lg` 900 · `xl` 1000 · `2xl` 1400.
-
-**Admin access:** set `{ "role": "admin" }` in a user's Clerk public metadata, or list their email in
-`ADMIN_EMAILS`.
 
 ## Screenshots at every breakpoint
 
@@ -62,6 +57,8 @@ npm run capture   # writes screenshots/<width>/<route>.png
 
 ## Known limitations / next steps
 
+- **No auth yet.** Clerk was removed for the first deployment; re-add it to protect `/admin` and restore the
+  order console (`components/admin/admin-console.tsx`).
 - **Orders live in the browser** (`localStorage`, `selah.*` keys). The admin console only sees orders made
   on the same device until bookings move to Supabase.
 - **Blocked calendar days are a placeholder pattern** (`isBlocked` in `lib/booking.ts`) until real

@@ -120,8 +120,7 @@ export function Trips() {
               Message on WhatsApp
             </a>
             <p className="mt-3 text-xs leading-[1.5] text-stone-400">
-              Trips are saved in this browser for now. Sign in to keep them with your account once online bookings go
-              live.
+              Trips are saved in this browser for now.
             </p>
           </Card>
         </div>
