@@ -98,7 +98,7 @@ export function Trips() {
             </Card>
           </div>
 
-          <Card className="flex-[1_1_300px] rounded-[18px] p-[clamp(13px,3.2vw,22px)]">
+          <Card className="flex-[1_1_300px] rounded-[18px] p-[clamp(13px,3.2vw,22px)] md:sticky md:top-[92px]">
             <div className="flex items-center gap-[11px]">
               <Image src="/images/penny.jpg" alt="Penny Baluti" width={40} height={40} className="size-10 flex-none rounded-full object-cover object-top" />
               <div className="min-w-0 flex-1">

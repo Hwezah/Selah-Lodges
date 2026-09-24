@@ -49,7 +49,7 @@ export default function HomePage() {
       <section data-reveal id="faq">
         <Container className="pt-[clamp(48px,8vw,84px)] pb-[clamp(40px,7vw,72px)]">
           <div className="flex flex-wrap items-start gap-[clamp(24px,4vw,48px)]">
-            <div className="min-w-0 flex-[1_1_260px]">
+            <div className="min-w-0 flex-[1_1_260px] md:sticky md:top-[92px]">
               <h2 className="font-display text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">Good to know</h2>
               <p className="mt-3 text-[15px] leading-[1.6] text-stone-600">
                 Still deciding? Call or WhatsApp +256 776 401 100 or +256 751 401 198.

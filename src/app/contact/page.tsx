@@ -22,7 +22,7 @@ export default function ContactPage() {
 
         <div className="mt-8 flex flex-wrap items-start gap-[clamp(24px,3.5vw,44px)]">
           <ContactForm />
-          <div className="grid min-w-0 flex-[1_1_280px] gap-4">
+          <div className="grid min-w-0 flex-[1_1_280px] gap-4 md:sticky md:top-[92px]">
             {CONTACT_CARDS.map((c) => (
               <div key={c.label} className="rounded-[14px] border border-stone-200 bg-white p-[clamp(14px,3.4vw,22px)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[.07em] text-stone-500">{c.label}</div>

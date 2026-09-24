@@ -43,7 +43,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-[clamp(36px,6vw,56px)] flex flex-wrap items-start gap-[clamp(24px,4vw,48px)]">
-          <h2 className="font-display min-w-0 flex-[1_1_260px] text-center text-[clamp(26px,4.6vw,36px)] tracking-[-.015em] sm:text-left">
+          <h2 className="font-display min-w-0 flex-[1_1_260px] text-center md:sticky md:top-[92px] text-[clamp(26px,4.6vw,36px)] tracking-[-.015em] sm:text-left">
             Our vision
           </h2>
           <div className="grid min-w-0 flex-[1.4_1_340px]">
