@@ -16,8 +16,24 @@ const marcellus = Marcellus({ variable: "--font-marcellus", subsets: ["latin"], 
 const description =
   "Beautifully furnished one-bed serviced apartments in Komamboga | Kyanja, Kampala. A sanctuary to reflect, reset and rise.";
 
+// Absolute base for Open Graph URLs. Blank env vars are skipped, and on Vercel
+// the deployment's own domain is used when NEXT_PUBLIC_SITE_URL isn't set.
+function siteUrl(): URL {
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+  const candidates = [process.env.NEXT_PUBLIC_SITE_URL, vercel && `https://${vercel}`, "http://localhost:3000"];
+  for (const c of candidates) {
+    if (!c?.trim()) continue;
+    try {
+      return new URL(c.trim());
+    } catch {
+      // Ignore malformed values and try the next option.
+    }
+  }
+  return new URL("http://localhost:3000");
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: siteUrl(),
   title: { default: "Selah Lodges · Serviced apartments in Kyanja, Kampala", template: "%s · Selah Lodges" },
   description,
   openGraph: {
