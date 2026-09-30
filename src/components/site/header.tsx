@@ -281,13 +281,23 @@ function Drawer() {
           aria-label="Selah Lodges"
           className="fixed top-0 right-0 z-80 h-screen w-screen max-w-screen animate-sheet-in overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)] sm:w-[min(560px,max(35vw,320px))]"
         >
-          <div className="flex items-center justify-between gap-4">
+          {/* Phones: logo mark centred on top (white, so it shows on gold). Wider: name left, close right. */}
+          <div className="relative flex flex-col items-center gap-3 pt-1 sm:flex-row sm:justify-between sm:gap-4 sm:pt-0">
+            <Link href="/" onClick={closePanels} aria-label="Selah Lodges home" className="sm:hidden">
+              <Image
+                src="/images/selah-mark.png"
+                alt=""
+                width={72}
+                height={72}
+                className="size-[72px] object-contain brightness-0 invert"
+              />
+            </Link>
             <span className="font-display whitespace-nowrap text-[26px]">Selah Lodges</span>
             <button
               type="button"
               onClick={closePanels}
               aria-label="Close"
-              className="-mt-1.5 -mr-2 grid size-11 flex-none place-items-center text-stone-50 hover:text-gold-soft"
+              className="absolute -top-1.5 -right-2 grid size-11 flex-none place-items-center text-stone-50 hover:text-gold-soft sm:static sm:-mt-1.5 sm:-mr-2"
             >
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="0.9">
                 <path d="M6 6 34 34" />
