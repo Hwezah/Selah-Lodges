@@ -18,6 +18,8 @@ export const CONFIG = {
 
 export type ApartmentId = "apartment-1" | "apartment-2";
 
+export type Photo = { src: string; alt: string };
+
 export type Apartment = {
   id: ApartmentId;
   name: string;
@@ -29,6 +31,8 @@ export type Apartment = {
   desc: string;
   amenities: string[];
   images: [string, string, string];
+  /** Full album shown in the photo viewer (starts with `images`). */
+  gallery: Photo[];
   specs: { area: string; guests: string; beds: string; baths: string };
 };
 
@@ -53,6 +57,14 @@ const AMENITIES = [
 
 const SPECS = { area: "560 ft²", guests: "2 Guests", beds: "1 Bed", baths: "1 Bathroom" };
 
+
+// Shared spaces appear at the end of both apartment albums.
+const SHARED_PHOTOS: Photo[] = [
+  { src: "/images/svc-cleaning.jpg", alt: "Bathroom" },
+  { src: "/images/hero-balcony.jpg", alt: "Balcony" },
+  { src: "/images/svc-carwash.jpg", alt: "Building and secure parking" },
+];
+
 // The bedroom photos are deliberately swapped between the apartments.
 export const APARTMENTS: Apartment[] = [
   {
@@ -66,6 +78,13 @@ export const APARTMENTS: Apartment[] = [
     desc: DESC,
     amenities: AMENITIES,
     images: ["/images/room1-living.jpg", "/images/room2-bedroom.jpg", "/images/room1-kitchen.jpg"],
+    gallery: [
+      { src: "/images/room1-living.jpg", alt: "Living room" },
+      { src: "/images/room2-bedroom.jpg", alt: "Bedroom" },
+      { src: "/images/room1-kitchen.jpg", alt: "Kitchen and dining" },
+      { src: "/images/room1-lounge.jpg", alt: "Lounge chair and TV" },
+      ...SHARED_PHOTOS,
+    ],
     specs: SPECS,
   },
   {
@@ -79,6 +98,15 @@ export const APARTMENTS: Apartment[] = [
     desc: DESC,
     amenities: AMENITIES,
     images: ["/images/room2-living.jpg", "/images/room1-bedroom.jpg", "/images/room2-kitchen.jpg"],
+    gallery: [
+      { src: "/images/room2-living.jpg", alt: "Living room" },
+      { src: "/images/room1-bedroom.jpg", alt: "Bedroom" },
+      { src: "/images/room2-kitchen.jpg", alt: "Kitchen and dining" },
+      { src: "/images/room2-lounge.jpg", alt: "Lounge" },
+      { src: "/images/room2-tv.jpg", alt: "TV wall and dining nook" },
+      { src: "/images/room2-coffee-table.jpg", alt: "Coffee table detail" },
+      ...SHARED_PHOTOS,
+    ],
     specs: SPECS,
   },
 ];
@@ -86,6 +114,16 @@ export const APARTMENTS: Apartment[] = [
 export function getApartment(id: string | null | undefined): Apartment {
   return APARTMENTS.find((a) => a.id === id) ?? APARTMENTS[0];
 }
+
+/** Album behind the home page photo collage. */
+export const HOME_PHOTOS: Photo[] = [
+  { src: "/images/hero-living.jpg", alt: "Selah Lodges living room" },
+  { src: "/images/hero-balcony.jpg", alt: "Balcony" },
+  { src: "/images/hero-cushions.jpg", alt: "Living room detail" },
+  { src: "/images/room1-living.jpg", alt: "One-Bed Apartment 1 living room" },
+  { src: "/images/room2-living.jpg", alt: "One-Bed Apartment 2 living room" },
+  { src: "/images/svc-carwash.jpg", alt: "Building and secure parking" },
+];
 
 export const FILTERS = ["Both apartments", "Apartment 1", "Apartment 2"] as const;
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { PhotoButton } from "@/components/site/lightbox";
 import { Container, Eyebrow } from "@/components/site/ui";
 import { STATS, TIMELINE } from "@/lib/data";
 
@@ -28,9 +29,12 @@ export default function AboutPage() {
               rest, reflection, and personal renewal.
             </p>
           </div>
-          <div data-reveal className="relative h-[clamp(240px,34vw,440px)] w-full min-w-0 flex-[1_1_300px] overflow-hidden rounded-[18px] bg-stone-100">
+          <PhotoButton
+            album={[{ src: "/images/penny.jpg", alt: "Penny Baluti, founder" }]}
+            className="relative h-[clamp(240px,34vw,440px)] w-full min-w-0 flex-[1_1_300px] overflow-hidden rounded-[18px] bg-stone-100"
+          >
             <Image src="/images/penny.jpg" alt="Penny Baluti, founder" fill priority sizes="(min-width: 640px) 45vw, 100vw" className="object-cover object-[center_30%]" />
-          </div>
+          </PhotoButton>
         </div>
 
         <div className="mt-14 grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-4">

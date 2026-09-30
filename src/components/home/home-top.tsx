@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { AlbumChip } from "@/components/site/album-chip";
 import { ApartmentCard } from "@/components/site/apartment-card";
+import { PhotoButton } from "@/components/site/lightbox";
 import { Calendar } from "@/components/site/calendar";
 import { Container, CurrencyToggle, Eyebrow, FieldLabel, GuestStepper, Tabs } from "@/components/site/ui";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
-import { CONFIG, APARTMENTS, FILTERS } from "@/lib/data";
+import { CONFIG, APARTMENTS, FILTERS, HOME_PHOTOS } from "@/lib/data";
 import { datesLabel, fmtDate, guestsLabel } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
@@ -112,16 +114,17 @@ export function HomeTop() {
       <section data-reveal>
         <Container className="pt-[clamp(26px,5vw,40px)]">
           <div className="flex flex-wrap gap-3">
-            <div className="relative h-[clamp(220px,34vw,380px)] min-w-0 flex-[2_1_320px] overflow-hidden rounded-2xl bg-stone-100">
-              <Image src="/images/hero-living.jpg" alt="Selah Lodges living room" fill priority sizes="(min-width: 640px) 66vw, 100vw" className="object-cover" />
-            </div>
+            <PhotoButton album={HOME_PHOTOS} index={0} className="relative h-[clamp(220px,34vw,380px)] min-w-0 flex-[2_1_320px] overflow-hidden rounded-2xl bg-stone-100">
+              <Image src="/images/hero-living.jpg" alt="Selah Lodges living room" fill priority sizes="(min-width: 640px) 66vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+              <AlbumChip count={HOME_PHOTOS.length} />
+            </PhotoButton>
             <div className="hidden h-[clamp(220px,34vw,380px)] min-w-0 flex-[1_1_220px] flex-col gap-3 sm:flex">
-              <div className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
-                <Image src="/images/hero-balcony.jpg" alt="Balcony" fill sizes="33vw" className="object-cover" />
-              </div>
-              <div className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
-                <Image src="/images/hero-cushions.jpg" alt="Living room detail" fill sizes="33vw" className="object-cover" />
-              </div>
+              <PhotoButton album={HOME_PHOTOS} index={1} className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
+                <Image src="/images/hero-balcony.jpg" alt="Balcony" fill sizes="33vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+              </PhotoButton>
+              <PhotoButton album={HOME_PHOTOS} index={2} className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
+                <Image src="/images/hero-cushions.jpg" alt="Living room detail" fill sizes="33vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+              </PhotoButton>
             </div>
           </div>
         </Container>

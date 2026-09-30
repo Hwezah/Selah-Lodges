@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { PhotoButton } from "@/components/site/lightbox";
 import { Tabs } from "@/components/site/ui";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
@@ -16,24 +17,25 @@ export function ServicesGrid() {
   const { cart, toggleCartItem } = useBooking();
   const { openPanel } = useUI();
   const visible = SERVICES.filter((s) => filter === "Everything" || s.cat === filter);
+  const album = visible.map((s) => ({ src: s.image, alt: s.title }));
 
   return (
     <>
       <Tabs options={SERVICE_FILTERS} value={filter} onChange={setFilter} className="mt-[34px] w-full" />
       <div className="mt-[26px] grid grid-cols-[repeat(auto-fill,minmax(min(100%,330px),1fr))] gap-[22px]">
-        {visible.map((s) => {
+        {visible.map((s, i) => {
           const on = cart.includes(s.title);
           return (
             <div key={s.title} data-reveal className="flex flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white">
-              <div className="relative aspect-[16/10] bg-stone-100">
+              <PhotoButton album={album} index={i} className="relative aspect-[16/10] w-full overflow-hidden bg-stone-100">
                 <Image
                   src={s.image}
                   alt={s.title}
                   fill
                   sizes="(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                 />
-              </div>
+              </PhotoButton>
               <div className="flex flex-1 flex-col px-5 pt-[18px] pb-5">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="flex-none whitespace-nowrap rounded-full bg-gold-tint px-[9px] py-[3px] text-[11.5px] font-semibold text-gold">

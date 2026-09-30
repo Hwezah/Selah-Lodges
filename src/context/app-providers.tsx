@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 
+import { LightboxProvider } from "@/components/site/lightbox";
 import { BookingProvider } from "@/context/booking-context";
 import { UIProvider } from "@/context/ui-context";
 
@@ -9,7 +10,9 @@ import { UIProvider } from "@/context/ui-context";
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <UIProvider>
-      <BookingProvider>{children}</BookingProvider>
+      <BookingProvider>
+        <LightboxProvider>{children}</LightboxProvider>
+      </BookingProvider>
     </UIProvider>
   );
 }
