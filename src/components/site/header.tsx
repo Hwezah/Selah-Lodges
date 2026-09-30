@@ -1,14 +1,13 @@
 "use client";
 
-import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 
+import { displayName, useAuth } from "@/context/auth-context";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
-import { clerkEnabled } from "@/lib/clerk";
 import { APARTMENTS, NAV_ITEMS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +60,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex flex-none items-center gap-[clamp(2px,1.5vw,10px)]">
           <CartMenu />
-          {clerkEnabled ? <ClerkAccount /> : <AccountMenu />}
+          <AccountMenu />
           <Link
             href="/#stays"
             className="hidden h-[38px] flex-none items-center whitespace-nowrap rounded-[10px] bg-gold px-[clamp(12px,3vw,16px)] text-[13.5px] font-medium text-stone-50 hover:bg-gold-hover hover:text-stone-50 sm:inline-flex"
@@ -84,52 +83,78 @@ const personIcon = (
   </svg>
 );
 
-/** Clerk sign-in (modal), or the account menu once signed in. */
-function ClerkAccount() {
-  const { isSignedIn } = useAuth();
-  if (isSignedIn) {
-    return (
-      <UserButton appearance={{ elements: { avatarBox: "size-7" } }}>
-        <UserButton.MenuItems>
-          <UserButton.Link label="Your trips" labelIcon={<TripsIcon />} href="/trips" />
-        </UserButton.MenuItems>
-      </UserButton>
-    );
-  }
-  return (
-    <SignInButton mode="modal">
-      <button type="button" aria-label="Sign in" className={iconBtn}>
-        {personIcon}
-      </button>
-    </SignInButton>
-  );
-}
-
-/** Stand-in account menu while auth isn't configured. */
+/**
+ * Signed out: opens the sign-in modal. Signed in: initial avatar with an
+ * account menu. Without Supabase configured it says sign-in is coming soon.
+ */
 function AccountMenu() {
   const { panel, togglePanel, closePanels } = useUI();
+  const { enabled, user, isAdmin, openAuth, signOut } = useAuth();
   const open = panel === "account";
+
+  if (enabled && !user) {
+    return (
+      <button type="button" onClick={() => openAuth("signin")} aria-label="Sign in" className={iconBtn}>
+        {personIcon}
+      </button>
+    );
+  }
+
+  const name = user ? displayName(user) : "";
+  const item = "flex w-full items-center gap-2.5 px-4 py-3 text-left text-[13.5px] text-stone-900 hover:bg-stone-50 hover:text-stone-900";
+
   return (
     <div className="relative flex-none" data-keep-open>
-      <button type="button" onClick={() => togglePanel("account")} aria-label="Account" aria-expanded={open} className={iconBtn}>
-        {personIcon}
+      <button
+        type="button"
+        onClick={() => togglePanel("account")}
+        aria-label="Account"
+        aria-expanded={open}
+        className={user ? "ml-1 grid size-7 flex-none place-items-center rounded-full bg-gold text-xs font-semibold uppercase text-stone-50 hover:bg-gold-hover" : iconBtn}
+      >
+        {user ? name.charAt(0) : personIcon}
       </button>
       {open && (
         <div className={cn(panelCls, "w-[min(360px,calc(100vw-24px))] sm:w-[min(280px,calc(100vw-28px))]")}>
           <div className="border-b border-stone-100 px-4 py-3.5">
-            <div className="text-[13.5px] font-semibold">Your account</div>
-            <div className="mt-1 text-[12.5px] leading-[1.5] text-stone-500">
-              Sign-in is coming soon. Your trips are saved on this device for now.
-            </div>
+            {user ? (
+              <>
+                <div className="truncate text-[13.5px] font-semibold">{name}</div>
+                <div className="mt-0.5 truncate text-[12.5px] text-stone-500">{user.email}</div>
+              </>
+            ) : (
+              <>
+                <div className="text-[13.5px] font-semibold">Your account</div>
+                <div className="mt-1 text-[12.5px] leading-[1.5] text-stone-500">
+                  Sign-in is coming soon. Your trips are saved on this device for now.
+                </div>
+              </>
+            )}
           </div>
-          <Link
-            href="/trips"
-            onClick={closePanels}
-            className="flex items-center gap-2.5 px-4 py-3 text-[13.5px] text-stone-900 hover:bg-stone-50 hover:text-stone-900"
-          >
+          <Link href="/trips" onClick={closePanels} className={item}>
             <TripsIcon />
             Your trips
           </Link>
+          {isAdmin && (
+            <Link href="/admin" onClick={closePanels} className={cn(item, "border-t border-stone-100")}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2.9 4.6 6v6.1c0 4.4 3.1 7.5 7.4 9 4.3-1.5 7.4-4.6 7.4-9V6z" />
+              </svg>
+              Admin console
+            </Link>
+          )}
+          {user && (
+            <button
+              type="button"
+              onClick={() => {
+                closePanels();
+                void signOut();
+              }}
+              className={cn(item, "border-t border-stone-100 text-red-700 hover:bg-red-50 hover:text-red-700")}
+            >
+              Sign out
+            </button>
+          )}
         </div>
       )}
     </div>

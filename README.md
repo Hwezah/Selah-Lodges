@@ -3,8 +3,9 @@
 Booking site for Selah Lodges, two one-bed serviced apartments in Komamboga | Kyanja, Kampala.
 Rebuilt from the high-fidelity prototype in [`docs/handoff/`](docs/handoff/README.md).
 
-**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · Clerk auth (optional) · React Context for state.
-Supabase persistence is planned. No environment variables are required; Clerk switches on when its keys are set.
+**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · Supabase Auth · React Context for state.
+Bookings move to the Supabase database next. No environment variables are required; auth switches on when
+the Supabase keys are set.
 
 ## Getting started
 
@@ -25,7 +26,8 @@ npm run dev
 | `/checkout/pending` | Payment claim recorded, awaiting admin confirmation |
 | `/checkout/done` | Confirmed booking (return target for card payments) |
 | `/trips` | The guest's bookings, check-in details, message the host |
-| `/admin` | Confirm or decline orders — Clerk sign-in + admin role (placeholder until Clerk keys are set) |
+| `/admin` | Confirm or decline orders — Supabase sign-in + admin role (placeholder until Supabase keys are set) |
+| `/auth/callback` | Completes Google sign-in, email confirmation and password-reset links |
 
 ## Where things live
 
@@ -40,7 +42,7 @@ src/
     booking-context.tsx   trip draft (apartment, dates, guests, cart), currency,
                           checkout form, orders
   lib/
-    clerk.ts              clerkEnabled switch (auth only runs when keys are set)
+    supabase/             config (supabaseEnabled), browser + server clients, admin check
     data.ts               apartments, services, copy, config (till numbers, fees…)
     booking.ts            pricing, dates/calendar, currency, phone, WhatsApp helpers
 public/images/            client photos (compressed JPEG)
@@ -48,6 +50,23 @@ public/images/            client photos (compressed JPEG)
 
 **Breakpoints** match the prototype's width tiers and are defined in `globals.css`:
 `xs` 520 · `sm` 640 · `md` 760 · `lg` 900 · `xl` 1000 · `2xl` 1400.
+
+## Supabase Auth setup
+
+1. Create a project at [supabase.com](https://supabase.com). Copy **Project URL** and the **publishable (anon)
+   key** into `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (locally and in Vercel).
+2. **Authentication → URL Configuration:** set *Site URL* to the live domain and add redirect URLs:
+   `https://<your-domain>/auth/callback`, `https://*-<vercel-team>.vercel.app/auth/callback` and
+   `http://localhost:3000/auth/callback`.
+3. **Authentication → Sign In / Providers → Google:** enable it with a Google Cloud OAuth client
+   (authorised redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`). Email + password is on by
+   default; keep "Confirm email" on.
+4. **Make an admin** (SQL editor):
+   ```sql
+   update auth.users set raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'
+   where email = 'owner@example.com';
+   ```
+   The user signs out and back in for it to apply. `ADMIN_EMAILS` works too.
 
 ## Screenshots at every breakpoint
 
@@ -58,8 +77,8 @@ npm run capture   # writes screenshots/<width>/<route>.png
 
 ## Known limitations / next steps
 
-- **Auth is off until Clerk keys are set** (`src/lib/clerk.ts`). Without them the account menu says sign-in is
-  coming soon and `/admin` shows a placeholder. Admins: Clerk public metadata `{ "role": "admin" }` or `ADMIN_EMAILS`.
+- **Auth is off until the Supabase keys are set** (`src/lib/supabase/config.ts`). Without them the account menu
+  says sign-in is coming soon and `/admin` shows a placeholder.
 - **Orders live in the browser** (`localStorage`, `selah.*` keys). The admin console only sees orders made
   on the same device until bookings move to Supabase.
 - **Blocked calendar days are a placeholder pattern** (`isBlocked` in `lib/booking.ts`) until real
