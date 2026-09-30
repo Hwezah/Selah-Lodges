@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Jost, Marcellus } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import { BookBar, ShellPadding } from "@/components/site/book-bar";
 import { SiteFooter } from "@/components/site/footer";
@@ -7,6 +8,7 @@ import { SiteHeader } from "@/components/site/header";
 import { RevealObserver } from "@/components/site/reveal-observer";
 import { Toaster } from "@/components/site/toaster";
 import { AppProviders } from "@/context/app-providers";
+import { clerkEnabled } from "@/lib/clerk";
 import "./globals.css";
 
 const jost = Jost({ variable: "--font-jost", subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#B9975B" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  return (
+  const page = (
     <html lang="en" className={`${jost.variable} ${marcellus.variable}`}>
       <body>
         <AppProviders>
@@ -63,5 +65,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </AppProviders>
       </body>
     </html>
+  );
+  if (!clerkEnabled) return page;
+
+  return (
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#B9975B",
+          colorForeground: "#1C1917",
+          colorMutedForeground: "#78716C",
+          fontFamily: "var(--font-jost), system-ui, sans-serif",
+          borderRadius: "0.75rem",
+        },
+      }}
+    >
+      {page}
+    </ClerkProvider>
   );
 }

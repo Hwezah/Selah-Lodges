@@ -3,8 +3,8 @@
 Booking site for Selah Lodges, two one-bed serviced apartments in Komamboga | Kyanja, Kampala.
 Rebuilt from the high-fidelity prototype in [`docs/handoff/`](docs/handoff/README.md).
 
-**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · React Context for state.
-Clerk auth and Supabase persistence are planned; no environment variables are required today.
+**Stack:** Next.js 16 (App Router) · Tailwind CSS v4 · shadcn/ui · Clerk auth (optional) · React Context for state.
+Supabase persistence is planned. No environment variables are required; Clerk switches on when its keys are set.
 
 ## Getting started
 
@@ -25,7 +25,7 @@ npm run dev
 | `/checkout/pending` | Payment claim recorded, awaiting admin confirmation |
 | `/checkout/done` | Confirmed booking (return target for card payments) |
 | `/trips` | The guest's bookings, check-in details, message the host |
-| `/admin` | Placeholder until admin sign-in lands; the order console is in `components/admin/` |
+| `/admin` | Confirm or decline orders — Clerk sign-in + admin role (placeholder until Clerk keys are set) |
 
 ## Where things live
 
@@ -40,6 +40,7 @@ src/
     booking-context.tsx   trip draft (apartment, dates, guests, cart), currency,
                           checkout form, orders
   lib/
+    clerk.ts              clerkEnabled switch (auth only runs when keys are set)
     data.ts               apartments, services, copy, config (till numbers, fees…)
     booking.ts            pricing, dates/calendar, currency, phone, WhatsApp helpers
 public/images/            client photos (compressed JPEG)
@@ -57,8 +58,8 @@ npm run capture   # writes screenshots/<width>/<route>.png
 
 ## Known limitations / next steps
 
-- **No auth yet.** Clerk was removed for the first deployment; re-add it to protect `/admin` and restore the
-  order console (`components/admin/admin-console.tsx`).
+- **Auth is off until Clerk keys are set** (`src/lib/clerk.ts`). Without them the account menu says sign-in is
+  coming soon and `/admin` shows a placeholder. Admins: Clerk public metadata `{ "role": "admin" }` or `ADMIN_EMAILS`.
 - **Orders live in the browser** (`localStorage`, `selah.*` keys). The admin console only sees orders made
   on the same device until bookings move to Supabase.
 - **Blocked calendar days are a placeholder pattern** (`isBlocked` in `lib/booking.ts`) until real

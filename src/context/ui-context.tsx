@@ -14,19 +14,14 @@ import {
 
 export type ToastTone = "ok" | "warn" | "hint";
 export type Toast = { id: string; tone: ToastTone; title: string; body: string };
-export type Notification = { id: string; title: string; body: string; at: number; unread: boolean };
 
 /** Only one floating panel is open at a time, like the prototype. */
-export type Panel = "cart" | "notif" | "drawer" | "cal-hero" | "cal-detail" | null;
+export type Panel = "cart" | "account" | "drawer" | "cal-hero" | "cal-detail" | null;
 
 type UIContextValue = {
   toasts: Toast[];
   toast: (tone: ToastTone, title: string, body: string) => void;
   dismissToast: (id: string) => void;
-  notifications: Notification[];
-  unreadCount: number;
-  notify: (title: string, body: string) => void;
-  markAllRead: () => void;
   panel: Panel;
   openPanel: (p: Panel) => void;
   /** Open a panel once the next navigation completes (e.g. calendar on the home page). */
@@ -41,7 +36,6 @@ const uid = () => Math.random().toString(36).slice(2);
 
 export function UIProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
   const pathname = usePathname();
   const [panelState, setPanelState] = useState<{ panel: Panel; path: string; pending: Panel }>({
     panel: null,
@@ -73,14 +67,6 @@ export function UIProvider({ children }: { children: ReactNode }) {
     [dismissToast],
   );
 
-  const notify = useCallback((title: string, body: string) => {
-    setNotifications((n) => [{ id: uid(), title, body, at: Date.now(), unread: true }, ...n].slice(0, 20));
-  }, []);
-
-  const markAllRead = useCallback(() => {
-    setNotifications((n) => n.map((x) => ({ ...x, unread: false })));
-  }, []);
-
   const togglePanel = useCallback(
     (p: Exclude<Panel, null>) => setPanelState((s) => ({ ...s, panel: s.panel === p ? null : p })),
     [],
@@ -108,17 +94,13 @@ export function UIProvider({ children }: { children: ReactNode }) {
       toasts,
       toast,
       dismissToast,
-      notifications,
-      unreadCount: notifications.filter((n) => n.unread).length,
-      notify,
-      markAllRead,
       panel,
       openPanel: setPanel,
       openPanelAfterNav,
       togglePanel,
       closePanels,
     }),
-    [toasts, toast, dismissToast, notifications, notify, markAllRead, panel, setPanel, openPanelAfterNav, togglePanel, closePanels],
+    [toasts, toast, dismissToast, panel, setPanel, openPanelAfterNav, togglePanel, closePanels],
   );
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

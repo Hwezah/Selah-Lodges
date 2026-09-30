@@ -129,7 +129,7 @@ const initialTrip: TripDraft = {
 };
 
 export function BookingProvider({ children }: { children: ReactNode }) {
-  const { toast, notify } = useUI();
+  const { toast } = useUI();
   const [hydrated, setHydrated] = useState(false);
   const [trip, setTrip] = useState<TripDraft>(initialTrip);
   const [currency, setCurrencyState] = useState<Currency>("USD");
@@ -248,25 +248,16 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     };
     saveOrders([order, ...orders].slice(0, 20));
     setLastRef(order.ref);
-    notify(
-      `Booking recorded · ${order.ref}`,
-      `${order.name} claims ${order.amountLabel} by ${order.method} for ${order.apartment}.`,
-    );
     toast("ok", "Booking recorded as pending", "Penny verifies the payment, then confirms.");
     return order;
-  }, [form, payMethod, momoPhone, apartment, trip, totals.n, amountDue, money, orders, saveOrders, notify, toast]);
+  }, [form, payMethod, momoPhone, apartment, trip, totals.n, amountDue, money, orders, saveOrders, toast]);
 
   const settleOrder = useCallback(
     (ref: string, status: "confirmed" | "declined") => {
       const order = orders.find((o) => o.ref === ref);
       if (!order) return;
       saveOrders(orders.map((o) => (o.ref === ref ? { ...o, status } : o)));
-      const who = order.phone || order.name;
       // TODO: send a real SMS/email (Africa's Talking or Twilio) instead of simulating it.
-      notify(
-        (status === "confirmed" ? "Payment confirmed · " : "Payment declined · ") + ref,
-        (status === "confirmed" ? "Confirmation SMS to " : "Decline SMS to ") + who + ".",
-      );
       toast(
         status === "confirmed" ? "ok" : "warn",
         status === "confirmed" ? "Order confirmed" : "Order declined",
@@ -275,7 +266,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
           : `We couldn't find payment for ${ref}.`,
       );
     },
-    [orders, saveOrders, notify, toast],
+    [orders, saveOrders, toast],
   );
 
   const cancelOrder = useCallback(

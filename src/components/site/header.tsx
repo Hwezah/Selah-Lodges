@@ -1,5 +1,6 @@
 "use client";
 
+import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -7,26 +8,23 @@ import { createPortal } from "react-dom";
 
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
+import { clerkEnabled } from "@/lib/clerk";
 import { APARTMENTS, NAV_ITEMS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const iconBtn =
   "relative grid h-[38px] w-[clamp(30px,8vw,38px)] flex-none place-items-center text-stone-700 hover:text-gold";
-const panelCls =
-  "absolute right-0 top-[46px] z-50 animate-sheet-in overflow-hidden rounded-[14px] border border-stone-200 bg-white shadow-panel";
+// Header panels: a centred sheet on phones (the trigger isn't at the screen
+// edge, so an anchored panel could run off-screen), anchored below the icon
+// from 640px up.
+const panelCls = cn(
+  "fixed top-[72px] left-1/2 z-90 max-h-[calc(100vh-96px)] -translate-x-1/2 animate-sheet-in overflow-y-auto rounded-[14px] border border-stone-200 bg-white shadow-panel",
+  "sm:absolute sm:top-[46px] sm:right-0 sm:left-auto sm:z-50 sm:max-h-none sm:translate-x-0 sm:overflow-hidden",
+);
 
 function isActive(href: string, pathname: string) {
   if (href === "/") return pathname === "/" || pathname.startsWith("/apartments") || pathname.startsWith("/checkout");
   return pathname.startsWith(href);
-}
-
-function timeAgo(at: number) {
-  const s = Math.round((Date.now() - at) / 1000);
-  if (s < 60) return "Just now";
-  const m = Math.round(s / 60);
-  if (m < 60) return `${m} minute${m === 1 ? "" : "s"} ago`;
-  const h = Math.round(m / 60);
-  return h < 24 ? `${h} hour${h === 1 ? "" : "s"} ago` : "Yesterday";
 }
 
 export function SiteHeader() {
@@ -63,7 +61,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex flex-none items-center gap-[clamp(2px,1.5vw,10px)]">
           <CartMenu />
-          <NotificationsMenu />
+          {clerkEnabled ? <ClerkAccount /> : <AccountMenu />}
           <Link
             href="/#stays"
             className="hidden h-[38px] flex-none items-center whitespace-nowrap rounded-[10px] bg-gold px-[clamp(12px,3vw,16px)] text-[13.5px] font-medium text-stone-50 hover:bg-gold-hover hover:text-stone-50 sm:inline-flex"
@@ -78,6 +76,74 @@ export function SiteHeader() {
   );
 }
 
+
+const personIcon = (
+  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="8.2" r="3.9" />
+    <path d="M4.6 20.2a7.4 7.4 0 0 1 14.8 0" />
+  </svg>
+);
+
+/** Clerk sign-in (modal), or the account menu once signed in. */
+function ClerkAccount() {
+  const { isSignedIn } = useAuth();
+  if (isSignedIn) {
+    return (
+      <UserButton appearance={{ elements: { avatarBox: "size-7" } }}>
+        <UserButton.MenuItems>
+          <UserButton.Link label="Your trips" labelIcon={<TripsIcon />} href="/trips" />
+        </UserButton.MenuItems>
+      </UserButton>
+    );
+  }
+  return (
+    <SignInButton mode="modal">
+      <button type="button" aria-label="Sign in" className={iconBtn}>
+        {personIcon}
+      </button>
+    </SignInButton>
+  );
+}
+
+/** Stand-in account menu while auth isn't configured. */
+function AccountMenu() {
+  const { panel, togglePanel, closePanels } = useUI();
+  const open = panel === "account";
+  return (
+    <div className="relative flex-none" data-keep-open>
+      <button type="button" onClick={() => togglePanel("account")} aria-label="Account" aria-expanded={open} className={iconBtn}>
+        {personIcon}
+      </button>
+      {open && (
+        <div className={cn(panelCls, "w-[min(360px,calc(100vw-24px))] sm:w-[min(280px,calc(100vw-28px))]")}>
+          <div className="border-b border-stone-100 px-4 py-3.5">
+            <div className="text-[13.5px] font-semibold">Your account</div>
+            <div className="mt-1 text-[12.5px] leading-[1.5] text-stone-500">
+              Sign-in is coming soon. Your trips are saved on this device for now.
+            </div>
+          </div>
+          <Link
+            href="/trips"
+            onClick={closePanels}
+            className="flex items-center gap-2.5 px-4 py-3 text-[13.5px] text-stone-900 hover:bg-stone-50 hover:text-stone-900"
+          >
+            <TripsIcon />
+            Your trips
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TripsIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <rect x="3" y="6" width="18" height="14" rx="2" />
+      <path d="M8 6V4h8v2" />
+    </svg>
+  );
+}
 
 function CartMenu() {
   const { panel, togglePanel, closePanels, openPanel, openPanelAfterNav, toast } = useUI();
@@ -104,7 +170,7 @@ function CartMenu() {
   };
 
   return (
-    <div className={cn("relative flex-none", count ? "block" : "hidden xs:block")} data-keep-open>
+    <div className="relative flex-none" data-keep-open>
       <button type="button" onClick={() => togglePanel("cart")} aria-label="Your trip extras" aria-expanded={open} className={iconBtn}>
         <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 4h1.8l2 10.2h11L20 7H5.4" />
@@ -118,7 +184,7 @@ function CartMenu() {
         )}
       </button>
       {open && (
-        <div className={cn(panelCls, "w-[min(340px,calc(100vw-28px))]")}>
+        <div className={cn(panelCls, "w-[min(360px,calc(100vw-24px))] sm:w-[min(340px,calc(100vw-28px))]")}>
           <div className="border-b border-stone-100 px-4 py-3.5 text-[13px] font-semibold">Your trip extras</div>
           {count === 0 && (
             <div className="px-4 py-[22px] text-[13.5px] leading-[1.55] text-stone-500">
@@ -157,66 +223,6 @@ function CartMenu() {
               Go to checkout
             </button>
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function NotificationsMenu() {
-  const { panel, togglePanel, notifications, unreadCount, markAllRead, closePanels } = useUI();
-  const router = useRouter();
-  const open = panel === "notif";
-
-  return (
-    <div className="relative flex-none" data-keep-open>
-      <button type="button" onClick={() => togglePanel("notif")} aria-label="Notifications" aria-expanded={open} className={iconBtn}>
-        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 8.5A6 6 0 1 0 6 8.5c0 6.5-2.8 8.4-2.8 8.4h17.6S18 15 18 8.5" />
-          <path d="M13.8 20.4a2.1 2.1 0 0 1-3.6 0" />
-        </svg>
-        {unreadCount > 0 && (
-          <span className="absolute top-[5px] right-1.5 size-2 rounded-full border-2 border-stone-50 bg-orange-700" />
-        )}
-      </button>
-      {open && (
-        <div
-          className={cn(
-            "fixed top-[72px] left-1/2 z-90 max-h-[calc(100vh-96px)] w-[min(360px,calc(100vw-24px))] -translate-x-1/2 animate-sheet-in overflow-y-auto rounded-[14px] border border-stone-200 bg-white shadow-panel",
-            "sm:absolute sm:top-[46px] sm:right-0 sm:left-auto sm:z-50 sm:max-h-none sm:w-[min(336px,calc(100vw-28px))] sm:translate-x-0 sm:overflow-hidden",
-          )}
-        >
-          <div className="flex items-center justify-between border-b border-stone-100 px-4 py-3.5">
-            <span className="text-[13px] font-semibold">Notifications</span>
-            <button type="button" onClick={markAllRead} className="text-xs text-gold">
-              Mark all read
-            </button>
-          </div>
-          {notifications.length === 0 && (
-            <div className="px-4 py-[22px] text-[13.5px] text-stone-500">You&apos;re all caught up.</div>
-          )}
-          {notifications.map((n, i) => (
-            <button
-              key={n.id}
-              type="button"
-              onClick={() => {
-                closePanels();
-                router.push("/trips");
-              }}
-              className={cn(
-                "flex w-full gap-[11px] px-4 py-[13px] text-left",
-                i < notifications.length - 1 && "border-b border-stone-100",
-                n.unread ? "bg-stone-50" : "bg-white",
-              )}
-            >
-              <span className={cn("mt-1.5 size-[7px] flex-none rounded-full", n.unread ? "bg-gold" : "bg-stone-200")} />
-              <span className="min-w-0">
-                <span className="block text-[13px] font-medium leading-[1.35]">{n.title}</span>
-                <span className="mt-0.5 block text-[12.5px] leading-[1.45] text-stone-500">{n.body}</span>
-                <span className="mt-[5px] block text-[11.5px] text-stone-400">{timeAgo(n.at)}</span>
-              </span>
-            </button>
-          ))}
         </div>
       )}
     </div>
