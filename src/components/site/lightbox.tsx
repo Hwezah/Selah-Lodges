@@ -114,7 +114,7 @@ function Viewer({
   }, [index]);
 
   const arrow =
-    "absolute top-1/2 z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-stone-50/10 text-stone-50 backdrop-blur-sm hover:bg-stone-50/20";
+    "absolute top-1/2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-stone-900 shadow-[0_8px_24px_-6px_rgba(0,0,0,.6)] ring-1 ring-black/5 transition-transform hover:scale-105 active:scale-95";
 
   return createPortal(
     <div
@@ -147,7 +147,6 @@ function Viewer({
 
       <div
         className="relative min-h-0 flex-1"
-        onClick={(e) => e.target === e.currentTarget && onClose()}
         onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
         onTouchEnd={(e) => {
           if (touchX.current === null) return;
@@ -156,18 +155,40 @@ function Viewer({
           touchX.current = null;
         }}
       >
+        {/* Current photo plus its neighbours, preloaded and stacked, so changes are an instant fade. */}
         <div className="pointer-events-none absolute inset-x-[clamp(8px,6vw,80px)] inset-y-2">
-          <Image key={photo.src} src={photo.src} alt={photo.alt} fill sizes="100vw" className="object-contain" priority />
+          {photos.map((p, i) => {
+            const near = i === index || i === (index + 1) % count || i === (index - 1 + count) % count;
+            if (!near) return null;
+            return (
+              <Image
+                key={p.src + i}
+                src={p.src}
+                alt={i === index ? p.alt : ""}
+                fill
+                sizes="100vw"
+                priority={i === index}
+                className={cn("object-contain transition-opacity duration-300", i === index ? "opacity-100" : "opacity-0")}
+              />
+            );
+          })}
         </div>
         {count > 1 && (
           <>
-            <button type="button" onClick={() => go(-1)} aria-label="Previous photo" className={cn(arrow, "left-2 sm:left-4")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+            {/* Tap the left or right side of the photo to step back or forward. */}
+            <button type="button" tabIndex={-1} aria-hidden="true" onClick={() => go(-1)} className="absolute inset-y-0 left-0 w-1/3 cursor-w-resize" />
+            <button type="button" tabIndex={-1} aria-hidden="true" onClick={() => go(1)} className="absolute inset-y-0 right-0 w-1/3 cursor-e-resize" />
+          </>
+        )}
+        {count > 1 && (
+          <>
+            <button type="button" onClick={() => go(-1)} aria-label="Previous photo" className={cn(arrow, "left-3 sm:left-5")}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
-            <button type="button" onClick={() => go(1)} aria-label="Next photo" className={cn(arrow, "right-2 sm:right-4")}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+            <button type="button" onClick={() => go(1)} aria-label="Next photo" className={cn(arrow, "right-3 sm:right-5")}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
