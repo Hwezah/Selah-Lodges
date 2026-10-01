@@ -130,3 +130,9 @@ html.reveal-ready [data-reveal]:not([data-revealed]) {
     animation: none !important;
   }
 }
+
+/* Slideshow progress bars (home tour). */
+@keyframes progress {
+  from { width: 0; }
+  to { width: 100%; }
+}

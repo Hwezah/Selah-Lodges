@@ -1,12 +1,21 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+
 import { Faq } from "@/components/home/faq";
 import { HomeTop } from "@/components/home/home-top";
+import { VideoShowcase } from "@/components/home/video-showcase";
 import { Container } from "@/components/site/ui";
-import { PERKS, REVIEWS } from "@/lib/data";
+import { PERKS, REVIEWS, TOUR_SLIDES, TOUR_VIDEO } from "@/lib/data";
 
 export default function HomePage() {
+  // The tour video is optional: the section shows "coming soon" until the file exists.
+  const videoReady = existsSync(path.join(process.cwd(), "public", TOUR_VIDEO.src));
+
   return (
     <main>
       <HomeTop />
+
+      <VideoShowcase {...TOUR_VIDEO} available={videoReady} slides={TOUR_SLIDES} />
 
       <section data-reveal id="experience">
         <Container className="pt-[clamp(48px,8vw,84px)]">

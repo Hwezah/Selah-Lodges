@@ -111,6 +111,19 @@ export const APARTMENTS: Apartment[] = [
   },
 ];
 
+/**
+ * Photo tour played by the home "Take a tour" block until the video is ready:
+ * each apartment's rooms, then the shared spaces once.
+ */
+export const TOUR_SLIDES: Photo[] = [
+  ...APARTMENTS.flatMap((a) =>
+    a.gallery
+      .filter((p) => !SHARED_PHOTOS.some((x) => x.src === p.src))
+      .map((p) => ({ src: p.src, alt: `${a.name} · ${p.alt}` })),
+  ),
+  ...SHARED_PHOTOS,
+];
+
 export function getApartment(id: string | null | undefined): Apartment {
   return APARTMENTS.find((a) => a.id === id) ?? APARTMENTS[0];
 }
@@ -124,6 +137,13 @@ export const HOME_PHOTOS: Photo[] = [
   { src: "/images/room2-living.jpg", alt: "One-Bed Apartment 2 living room" },
   { src: "/images/svc-carwash.jpg", alt: "Building and secure parking" },
 ];
+
+/** Home page tour video. Drop the file at public/videos/selah-tour.mp4. */
+export const TOUR_VIDEO = {
+  src: "/videos/selah-tour.mp4",
+  poster: "/images/room2-tv.jpg",
+  title: "A walk through Selah Lodges",
+};
 
 export const FILTERS = ["Both apartments", "Apartment 1", "Apartment 2"] as const;
 
