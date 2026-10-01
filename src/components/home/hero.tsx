@@ -84,27 +84,24 @@ export function Hero() {
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>
-        {/* Always one row. Phones in portrait: shorter labels, spread edge to edge. */}
-        <div className="mt-6 flex flex-nowrap items-center justify-between gap-3 whitespace-nowrap sm:mt-8 sm:justify-start sm:gap-4">
+        {/* Hidden on phones in portrait, where the sticky "Book a room" bar takes over. */}
+        <div className="mt-8 hidden flex-nowrap items-center gap-4 whitespace-nowrap sm:flex">
           <Link
             href="/#stays"
-            className="inline-flex h-[52px] flex-none items-center gap-2.5 rounded-full bg-white px-5 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900 sm:h-14 sm:px-8"
+            className="inline-flex h-14 flex-none items-center gap-2.5 rounded-full bg-white px-8 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
               <path d="M7 17 17 7" />
               <path d="M8 7h9v9" />
             </svg>
-            <span className="sm:hidden">Book now</span>
-            <span className="hidden sm:inline">Book a room</span>
+            Book a room
           </Link>
           <span className="font-display text-[15px] italic text-stone-50/70">or</span>
           <Link
             href="/services"
-            aria-label="Explore services"
             className="min-w-0 border-b border-stone-50/60 pb-1 text-[12.5px] font-medium uppercase tracking-[.14em] text-stone-50 hover:border-stone-50 hover:text-stone-50"
           >
-            <span className="sm:hidden">Services</span>
-            <span className="hidden sm:inline">Explore services</span>
+            Explore services
           </Link>
         </div>
       </div>
