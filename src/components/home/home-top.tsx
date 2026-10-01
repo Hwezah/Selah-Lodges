@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
-import { AlbumChip } from "@/components/site/album-chip";
+import { Hero } from "@/components/home/hero";
 import { ApartmentCard } from "@/components/site/apartment-card";
-import { PhotoButton } from "@/components/site/lightbox";
 import { Calendar } from "@/components/site/calendar";
 import { Container, CurrencyToggle, Eyebrow, FieldLabel, GuestStepper, Tabs } from "@/components/site/ui";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
-import { CONFIG, APARTMENTS, FILTERS, HOME_PHOTOS } from "@/lib/data";
+import { CONFIG, APARTMENTS, FILTERS } from "@/lib/data";
 import { datesLabel, fmtDate, guestsLabel } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
@@ -46,21 +44,12 @@ export function HomeTop() {
 
   return (
     <>
-      <section data-reveal>
-        <Container className="pt-[clamp(32px,6vw,56px)] pb-2">
-          <div className="mx-auto flex w-fit max-w-full items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full border border-stone-200 bg-white py-[5px] pr-3 pl-2 text-[12.5px] text-stone-600 sm:mx-0">
-            <span className="rounded-full bg-gold-tint px-[7px] py-0.5 text-[11.5px] font-semibold text-gold">Welcome</span>
-            Furnished lodges · Komamboga | Kyanja
-          </div>
-          <h1 className="font-display mx-auto mt-[22px] max-w-[19ch] text-center text-[clamp(30px,6.4vw,70px)] leading-[1.04] tracking-[-.02em] text-pretty sm:mx-0 sm:text-left">
-            A sanctuary to reflect, reset and rise.
-          </h1>
-          <p className="mx-auto mt-[18px] max-w-[54ch] text-center text-[17px] leading-[1.6] text-stone-600 sm:mx-0 sm:text-left">
-            Relax in beautifully furnished spaces at one of the premier lodges in Kampala — a harmonious blend of modern
-            design and serene surroundings.
-          </p>
+      {/* Full-bleed photo hero (80% of the screen on phones, full height elsewhere). */}
+      <Hero />
 
-          <div className="mt-[34px] hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2 shadow-card lg:flex">
+      <section>
+        <Container>
+          <div className="relative z-10 -mt-12 hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2 shadow-panel lg:flex">
             <label className="min-w-0 flex-[1_1_190px] rounded-xl px-3.5 py-3">
               <FieldLabel>Where</FieldLabel>
               <input
@@ -102,31 +91,12 @@ export function HomeTop() {
           </div>
 
           {panel === "cal-hero" && (
-            <div className="mt-2.5 flex justify-center" data-keep-open>
+            <div className="mt-4 flex justify-center" data-keep-open>
               <div className="w-full max-w-[380px] animate-sheet-in rounded-2xl border border-stone-200 bg-white p-4 shadow-panel">
                 <Calendar onDone={closePanels} />
               </div>
             </div>
           )}
-        </Container>
-      </section>
-
-      <section data-reveal>
-        <Container className="pt-[clamp(26px,5vw,40px)]">
-          <div className="flex flex-wrap gap-3">
-            <PhotoButton album={HOME_PHOTOS} index={0} className="relative h-[clamp(220px,34vw,380px)] min-w-0 flex-[2_1_320px] overflow-hidden rounded-2xl bg-stone-100">
-              <Image src="/images/hero-living.jpg" alt="Selah Lodges living room" fill priority sizes="(min-width: 640px) 66vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-              <AlbumChip count={HOME_PHOTOS.length} />
-            </PhotoButton>
-            <div className="hidden h-[clamp(220px,34vw,380px)] min-w-0 flex-[1_1_220px] flex-col gap-3 sm:flex">
-              <PhotoButton album={HOME_PHOTOS} index={1} className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
-                <Image src="/images/hero-balcony.jpg" alt="Balcony" fill sizes="33vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-              </PhotoButton>
-              <PhotoButton album={HOME_PHOTOS} index={2} className="relative min-h-0 flex-1 overflow-hidden rounded-2xl bg-stone-100">
-                <Image src="/images/hero-cushions.jpg" alt="Living room detail" fill sizes="33vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-              </PhotoButton>
-            </div>
-          </div>
         </Container>
       </section>
 
