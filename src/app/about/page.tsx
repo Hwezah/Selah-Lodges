@@ -16,7 +16,7 @@ export default function AboutPage() {
     <main>
       <Container className="pt-[clamp(28px,5vw,48px)] pb-24">
         <div className="flex flex-wrap items-center gap-[clamp(28px,4vw,56px)]">
-          <div data-reveal className="min-w-0 flex-[1.15_1_320px]">
+          <div data-reveal data-m-center className="min-w-0 flex-[1.15_1_320px]">
             <Eyebrow>Our story, from the founder</Eyebrow>
             <h1 className="font-display mt-3 text-[clamp(28px,5.4vw,58px)] tracking-[-.02em]">About Selah Lodges</h1>
             <p className="mt-[18px] max-w-[56ch] text-[16.5px] leading-[1.7] text-stone-700">

@@ -11,7 +11,7 @@ export default async function AdminPage() {
   if (userIsAdmin(user)) return <AdminConsole />;
 
   return (
-    <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
+    <main data-m-center className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
       <h1 className="font-display text-[clamp(26px,4.8vw,46px)] tracking-[-.02em]">
         {supabaseEnabled ? "Admins only" : "Admin console"}
       </h1>

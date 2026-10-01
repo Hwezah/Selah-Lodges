@@ -12,7 +12,7 @@ export function PendingClaim() {
 
   if (!order) {
     return (
-      <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
+      <main data-m-center className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
         <h1 className="font-display text-[clamp(26px,4.8vw,46px)] tracking-[-.02em]">No pending booking</h1>
         <p className="mt-2.5 text-base text-stone-600">
           Start from an apartment to make a booking. <Link href="/#stays">Browse apartments</Link>
@@ -36,16 +36,18 @@ export function PendingClaim() {
 
   return (
     <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
-      <div className="grid size-[52px] place-items-center rounded-full bg-amber-100 text-[22px] text-amber-800" aria-hidden="true">
-        ⏳
+      <div data-m-center>
+        <div className="grid size-[52px] place-items-center rounded-full bg-amber-100 text-[22px] text-amber-800" aria-hidden="true">
+          ⏳
+        </div>
+        <h1 className="font-display mt-5 text-[clamp(26px,4.8vw,46px)] tracking-[-.02em]">We&apos;ll confirm shortly</h1>
+        <p className="mt-2.5 text-base leading-[1.6] text-stone-600">
+          Thanks {order.name.split(" ")[0]} — your booking is recorded as <strong>pending</strong>. Please call us on
+          +256 776 401 100 or +256 751 401 198 after payment. Your booking will be confirmed, and you&apos;ll get an
+          Email/SMS notification on {order.phone || "your phone"}, once funds have cleared in our account. Thank you for
+          your support!
+        </p>
       </div>
-      <h1 className="font-display mt-5 text-[clamp(26px,4.8vw,46px)] tracking-[-.02em]">We&apos;ll confirm shortly</h1>
-      <p className="mt-2.5 text-base leading-[1.6] text-stone-600">
-        Thanks {order.name.split(" ")[0]} — your booking is recorded as <strong>pending</strong>. Please call us on +256
-        776 401 100 or +256 751 401 198 after payment. Your booking will be confirmed, and you&apos;ll get an Email/SMS
-        notification on {order.phone || "your phone"}, once funds have cleared in our account. Thank you for your
-        support!
-      </p>
       <div className="mt-[26px] overflow-hidden rounded-2xl border border-stone-200 bg-white">
         <div className="flex items-center justify-between gap-3 border-b border-stone-100 px-5 py-4">
           <span className="text-[13px] font-semibold">Reference {order.ref}</span>
@@ -62,24 +64,28 @@ export function PendingClaim() {
           ))}
         </div>
       </div>
-      <p className="mt-4 text-[13px] leading-[1.6] text-stone-500">
-        Submitting this form is a record of your payment claim, not a receipt — nothing is marked paid until the team
-        verifies it.
-      </p>
-      <div className="mt-[22px] flex flex-wrap gap-2.5">
+      <div data-m-center>
+        <p className="mt-4 text-[13px] leading-[1.6] text-stone-500">
+          Submitting this form is a record of your payment claim, not a receipt — nothing is marked paid until the team
+          verifies it.
+        </p>
+      </div>
+      <div data-m-row className="mt-[22px] flex flex-nowrap gap-2.5">
         <a
           href={nudge}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex h-11 items-center rounded-xl border border-gold bg-white px-[18px] text-sm font-medium text-gold hover:bg-gold-tint"
         >
-          Nudge Penny on WhatsApp
+          <span className="sm:hidden">WhatsApp Penny</span>
+          <span className="hidden sm:inline">Nudge Penny on WhatsApp</span>
         </a>
         <Link
           href="/trips"
           className="inline-flex h-11 items-center rounded-xl border border-stone-200 bg-white px-[18px] text-sm text-stone-900 hover:bg-stone-100 hover:text-stone-900"
         >
-          View your trips
+          <span className="sm:hidden">Your trips</span>
+          <span className="hidden sm:inline">View your trips</span>
         </Link>
       </div>
     </main>

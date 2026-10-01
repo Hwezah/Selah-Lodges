@@ -102,13 +102,13 @@ export function HomeTop() {
 
       <section data-reveal id="stays" className="scroll-mt-20">
         <Container className="pt-[clamp(44px,7vw,72px)]">
-          <div className="flex flex-wrap items-end justify-between gap-6">
+          <div data-m-center className="flex flex-wrap items-end justify-between gap-6">
             <div className="min-w-0">
               <Eyebrow>Selah accommodations</Eyebrow>
               <h2 className="font-display mt-2.5 text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">Accommodation types</h2>
             </div>
-            <div className="flex max-w-full min-w-0 flex-wrap items-center gap-3">
-              <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <div data-m-center className="flex max-w-full min-w-0 flex-wrap items-center gap-3">
+              <div data-m-center className="flex min-w-0 flex-wrap items-center gap-2">
                 <CurrencyToggle />
                 <span className="whitespace-nowrap text-[11.5px] text-stone-400">
                   {currency === "UGX"

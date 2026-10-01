@@ -41,7 +41,7 @@ export function Tabs<T extends string>({
   className?: string;
 }) {
   return (
-    <div className={cn("flex max-w-full min-w-0 flex-wrap justify-center gap-[18px]", className)}>
+    <div data-m-row className={cn("flex max-w-full min-w-0 flex-wrap justify-center gap-[18px]", className)}>
       {options.map((o) => {
         const on = o === value;
         return (

@@ -16,7 +16,7 @@ export function BookingDone() {
 
   if (!order) {
     return (
-      <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
+      <main data-m-center className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
         <h1 className="font-display text-[clamp(29px,5.6vw,44px)] tracking-[-.02em]">No confirmed booking yet</h1>
         <p className="mt-3 text-base text-stone-600">
           Bookings paid by Mobile Money or bank transfer show here once Penny confirms them. <Link href="/trips">See your trips</Link>
@@ -28,6 +28,7 @@ export function BookingDone() {
 
   return (
     <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-[120px]">
+      <div data-m-center>
       <div className="grid size-[52px] place-items-center rounded-full bg-gold-tint text-gold">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
           <path d="m5 13 4 4L19 7" />
@@ -40,6 +41,7 @@ export function BookingDone() {
         Confirmation {order.ref} is on its way to {order.email || "your email"}. Penny will message you with check-in
         details a few days before arrival.
       </p>
+      </div>
       <div className="mt-8 overflow-hidden rounded-2xl border border-stone-200 bg-white">
         <div className="relative h-[180px]">
           <Image src={a.images[0]} alt={a.name} fill sizes="720px" className="object-cover" />
@@ -61,12 +63,13 @@ export function BookingDone() {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex flex-wrap gap-2.5">
+      <div data-m-row className="mt-6 flex flex-nowrap gap-2.5">
         <Link
           href="/#stays"
           className="inline-flex h-11 items-center rounded-[11px] bg-gold px-5 text-[14.5px] font-medium text-stone-50 hover:bg-gold-hover hover:text-stone-50"
         >
-          Browse more stays
+          <span className="sm:hidden">More stays</span>
+          <span className="hidden sm:inline">Browse more stays</span>
         </Link>
         <button
           type="button"

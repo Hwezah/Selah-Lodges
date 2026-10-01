@@ -13,12 +13,14 @@ export default function ContactPage() {
   return (
     <main>
       <Container className="pt-[clamp(28px,5vw,48px)] pb-24">
-        <h1 className="font-display text-[clamp(27px,5vw,52px)] tracking-[-.02em]">Contact Us</h1>
-        <p className="mt-3.5 max-w-[56ch] text-[16.5px] leading-[1.6] text-stone-600">
-          We&apos;d love to hear from you! Whether you&apos;re planning your next getaway, have a question about our
-          rooms, or need help with a booking, our friendly team is here to help. No question is too small, and no
-          request is too big.
-        </p>
+        <div data-m-center>
+          <h1 className="font-display text-[clamp(27px,5vw,52px)] tracking-[-.02em]">Contact Us</h1>
+          <p className="mt-3.5 max-w-[56ch] text-[16.5px] leading-[1.6] text-stone-600">
+            We&apos;d love to hear from you! Whether you&apos;re planning your next getaway, have a question about our
+            rooms, or need help with a booking, our friendly team is here to help. No question is too small, and no
+            request is too big.
+          </p>
+        </div>
 
         <div className="mt-8 flex flex-wrap items-start gap-[clamp(24px,3.5vw,44px)]">
           <ContactForm />

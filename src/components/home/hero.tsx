@@ -69,7 +69,7 @@ export function Hero() {
       })}
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-stone-900/80 via-stone-900/35 to-stone-900/25 lg:bg-gradient-to-r lg:from-stone-900/70 lg:via-stone-900/35 lg:to-stone-900/10" />
 
-      <div className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[clamp(28px,4vw,44px)]">
+      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[clamp(28px,4vw,44px)]">
         <div className="text-[11.5px] font-semibold uppercase tracking-[.14em] text-stone-50/85 sm:text-xs">
           Selah Lodges · Komamboga | Kyanja, Kampala
         </div>
@@ -80,7 +80,7 @@ export function Hero() {
 
       <div className="h-px w-full bg-stone-50/35" />
 
-      <div className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pt-[clamp(20px,3vw,32px)] pb-[clamp(28px,6vw,96px)]">
+      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pt-[clamp(20px,3vw,32px)] pb-[clamp(28px,6vw,96px)]">
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>

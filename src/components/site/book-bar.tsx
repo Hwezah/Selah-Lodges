@@ -28,6 +28,7 @@ export function BookBar() {
     >
       <Link
         href="/#stays"
+        data-m-btn
         className={cn(
           "flex min-h-12 w-full items-center justify-center rounded-xl text-[15px] font-medium",
           gold ? "bg-stone-50 text-gold" : "bg-gold text-stone-50",

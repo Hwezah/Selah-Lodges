@@ -136,3 +136,27 @@ html.reveal-ready [data-reveal]:not([data-revealed]) {
   from { width: 0; }
   to { width: 100%; }
 }
+
+/* Mobile portrait rules (docs/mobile-portrait-rules.md): opt in with data attributes. */
+@media (max-width: 600px) and (orientation: portrait) {
+  [data-m-center] {
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  [data-m-center] > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-self: center !important;
+  }
+  [data-m-btn] {
+    width: 80vw !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  [data-m-row] {
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+}

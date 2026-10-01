@@ -34,10 +34,12 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
   return (
     <main>
       <Container className="pt-[clamp(20px,4vw,32px)]">
-        <BackLink href="/#stays">All apartments</BackLink>
-        <h1 className="font-display mt-3.5 mb-1.5 text-[clamp(29px,5.6vw,44px)] tracking-[-.02em]">{a.name}</h1>
-        <div className="text-sm text-stone-600">
-          {a.loc} · {a.sleeps} · 94% guest satisfaction
+        <div data-m-center>
+          <BackLink href="/#stays">All apartments</BackLink>
+          <h1 className="font-display mt-3.5 mb-1.5 text-[clamp(29px,5.6vw,44px)] tracking-[-.02em]">{a.name}</h1>
+          <div className="text-sm text-stone-600">
+            {a.loc} · {a.sleeps} · 94% guest satisfaction
+          </div>
         </div>
 
         <div className="mt-[22px] flex flex-wrap gap-2.5">
@@ -57,7 +59,9 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
 
         <div className="mt-10 flex flex-wrap items-start gap-[clamp(28px,4vw,56px)] pb-20">
           <div className="min-w-0 flex-[1.6_1_340px]">
-            <p className="max-w-[60ch] text-base leading-[1.7] text-stone-700">{a.desc}</p>
+            <div data-m-center>
+              <p className="max-w-[60ch] text-base leading-[1.7] text-stone-700">{a.desc}</p>
+            </div>
             <div className="my-8 h-px bg-stone-200" />
             <div className="flex flex-wrap items-center justify-center gap-x-[26px] gap-y-3.5 sm:justify-start">
               {fullSpecs(a).map((s) => (
@@ -68,7 +72,7 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
               ))}
             </div>
             <div className="my-8 h-px bg-stone-200" />
-            <div className="text-[13px] font-semibold uppercase tracking-[.06em] text-stone-500">
+            <div data-m-center className="text-[13px] font-semibold uppercase tracking-[.06em] text-stone-500">
               What&apos;s included in this suite
             </div>
             <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(190px,1fr))] gap-3">

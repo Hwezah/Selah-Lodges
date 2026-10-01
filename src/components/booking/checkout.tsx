@@ -28,13 +28,14 @@ export function Checkout() {
 
   if (!b.checkIn || !b.checkOut) {
     return (
-      <main className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-24">
+      <main data-m-center className="mx-auto w-full max-w-[720px] px-[clamp(16px,4vw,24px)] pt-[clamp(40px,7vw,72px)] pb-24">
         <h1 className="font-display text-[clamp(28px,7.5vw,40px)] tracking-[-.02em]">Pick your dates first</h1>
         <p className="mt-3 text-base leading-[1.6] text-stone-600">
           Choose check-in and check-out on an apartment, then come back here to confirm and pay.
         </p>
         <Link
           href={detailHref}
+          data-m-btn
           className="mt-6 inline-flex h-11 items-center rounded-xl bg-gold px-5 text-sm font-medium text-stone-50 hover:bg-gold-hover hover:text-stone-50"
         >
           Choose dates for {b.apartment.name}
@@ -67,10 +68,12 @@ export function Checkout() {
 
   return (
     <main className="mx-auto w-full max-w-[1040px] px-[clamp(16px,4vw,24px)] pt-[clamp(20px,4vw,32px)] pb-24">
-      <BackLink href={detailHref}>Back to {b.apartment.name}</BackLink>
-      <h1 className="font-display mt-3.5 text-[clamp(28px,7.5vw,40px)] tracking-[-.02em]">Confirm and pay</h1>
+      <div data-m-center>
+        <BackLink href={detailHref}>Back to {b.apartment.name}</BackLink>
+        <h1 className="font-display mt-3.5 text-[clamp(28px,7.5vw,40px)] tracking-[-.02em]">Confirm and pay</h1>
+      </div>
 
-      <ol className="mt-[26px] flex flex-wrap items-center gap-x-2.5 gap-y-2">
+      <ol data-m-center className="mt-[26px] flex flex-wrap items-center gap-x-2.5 gap-y-2">
         {STEPS.map((label, i) => (
           <li key={label} className="flex min-w-0 items-center gap-2">
             <span
