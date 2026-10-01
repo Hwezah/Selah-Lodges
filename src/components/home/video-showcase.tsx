@@ -47,7 +47,7 @@ export function VideoShowcase({
             <span className="absolute top-1/2 left-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center">
               <span className="absolute size-[clamp(72px,9vw,124px)] animate-ping rounded-full bg-gold/40 [animation-duration:2.4s]" />
               <span className="relative grid size-[clamp(72px,9vw,124px)] place-items-center rounded-full bg-gold text-stone-50 shadow-[0_18px_40px_-12px_rgba(28,25,23,.55)] transition-transform duration-300 group-hover:scale-105">
-                <svg viewBox="0 0 24 24" className="ml-[6%] size-[38%]" fill="currentColor" aria-hidden="true">
+                <svg viewBox="0 0 24 24" className="size-[38%]" fill="currentColor" aria-hidden="true">
                   <path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z" />
                 </svg>
               </span>
