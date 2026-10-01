@@ -281,7 +281,8 @@ function Drawer() {
           aria-label="Selah Lodges"
           className="fixed top-0 right-0 z-80 h-screen w-screen max-w-screen animate-sheet-in overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)] sm:w-[min(560px,max(35vw,320px))]"
         >
-          {/* Phones: logo mark centred on top (white, so it shows on gold). Wider: name left, close right. */}
+          {/* Phones: large logo mark centred on top. Wider: mark + name left, close right. The mark is
+              gold artwork, rendered white so it shows on the gold drawer. */}
           <div className="relative flex flex-col items-center gap-3 pt-1 sm:flex-row sm:justify-between sm:gap-4 sm:pt-0">
             <Link href="/" onClick={closePanels} aria-label="Selah Lodges home" className="sm:hidden">
               <Image
@@ -292,7 +293,16 @@ function Drawer() {
                 className="size-[72px] object-contain brightness-0 invert"
               />
             </Link>
-            <span className="font-display whitespace-nowrap text-[26px]">Selah Lodges</span>
+            <Link href="/" onClick={closePanels} className="flex items-center gap-3 text-stone-50 hover:text-stone-50">
+              <Image
+                src="/images/selah-mark.png"
+                alt=""
+                width={36}
+                height={36}
+                className="hidden size-9 object-contain brightness-0 invert sm:block"
+              />
+              <span className="font-display whitespace-nowrap text-[26px]">Selah Lodges</span>
+            </Link>
             <button
               type="button"
               onClick={closePanels}
@@ -304,6 +314,16 @@ function Drawer() {
                 <path d="M34 6 6 34" />
               </svg>
             </button>
+          </div>
+
+          <div className="relative mt-6 aspect-[16/10] w-full overflow-hidden bg-gold-hover">
+            <Image
+              src="/images/room1-bedroom.jpg"
+              alt="A Selah Lodges bedroom"
+              fill
+              sizes="(min-width: 640px) 560px, 100vw"
+              className="object-cover"
+            />
           </div>
 
           <nav className="mt-[30px] grid gap-0.5 xl:hidden" aria-label="Menu">
