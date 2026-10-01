@@ -84,8 +84,8 @@ export function Hero() {
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>
-        {/* Always one row: shorter labels on phones in portrait so both CTAs fit. */}
-        <div className="mt-6 flex flex-nowrap items-center gap-3 whitespace-nowrap sm:mt-8 sm:gap-4">
+        {/* Always one row. Phones in portrait: shorter labels, spread edge to edge. */}
+        <div className="mt-6 flex flex-nowrap items-center justify-between gap-3 whitespace-nowrap sm:mt-8 sm:justify-start sm:gap-4">
           <Link
             href="/#stays"
             className="inline-flex h-[52px] flex-none items-center gap-2.5 rounded-full bg-white px-5 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900 sm:h-14 sm:px-8"
