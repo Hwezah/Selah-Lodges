@@ -5,7 +5,7 @@ import { Faq } from "@/components/home/faq";
 import { HomeTop } from "@/components/home/home-top";
 import { VideoShowcase } from "@/components/home/video-showcase";
 import { Container } from "@/components/site/ui";
-import { PERKS, REVIEWS, TOUR_SLIDES, TOUR_VIDEO } from "@/lib/data";
+import { CONFIG, PERKS, REVIEWS, TOUR_SLIDES, TOUR_VIDEO } from "@/lib/data";
 
 export default function HomePage() {
   // The tour video is optional: the section shows "coming soon" until the file exists.
@@ -63,7 +63,11 @@ export default function HomePage() {
             <div data-m-center className="min-w-0 flex-[1_1_260px] md:sticky md:top-[92px]">
               <h2 className="font-display text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">Good to know</h2>
               <p className="mt-3 text-[15px] leading-[1.6] text-stone-600">
-                Still deciding? Call or WhatsApp +256 776 401 100 or +256 751 401 198.
+                Still deciding? Call or WhatsApp +256 776 401 100 or +256 751 401 198, or email{" "}
+                <a href={`mailto:${CONFIG.reservationsEmail}`} className="font-medium text-gold hover:text-gold-hover">
+                  {CONFIG.reservationsEmail}
+                </a>
+                .
               </p>
             </div>
             <Faq />

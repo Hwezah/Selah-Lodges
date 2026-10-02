@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { useBooking } from "@/context/booking-context";
 import { fmtDate, whatsappUrl } from "@/lib/booking";
+import { CONFIG } from "@/lib/data";
 
 export function PendingClaim() {
   const { lastOrder, orders, hydrated } = useBooking();
@@ -43,7 +44,11 @@ export function PendingClaim() {
         <h1 className="font-display mt-5 text-[clamp(26px,4.8vw,46px)] tracking-[-.02em]">We&apos;ll confirm shortly</h1>
         <p className="mt-2.5 text-base leading-[1.6] text-stone-600">
           Thanks {order.name.split(" ")[0]} — your booking is recorded as <strong>pending</strong>. Please call us on
-          +256 776 401 100 or +256 751 401 198 after payment. Your booking will be confirmed, and you&apos;ll get an
+          +256 776 401 100 or +256 751 401 198, or email{" "}
+          <a href={`mailto:${CONFIG.reservationsEmail}`} className="font-medium text-gold hover:text-gold-hover">
+            {CONFIG.reservationsEmail}
+          </a>
+          , after payment. Your booking will be confirmed, and you&apos;ll get an
           Email/SMS notification on {order.phone || "your phone"}, once funds have cleared in our account. Thank you for
           your support!
         </p>

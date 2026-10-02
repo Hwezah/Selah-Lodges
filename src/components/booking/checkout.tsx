@@ -322,6 +322,13 @@ export function Checkout() {
             Sends your dates, guests and total straight to Penny on +256 776 401 100 — she confirms and holds the
             apartment.
           </div>
+          <div className="mt-2 text-xs leading-[1.5] text-stone-500">
+            Prefer email? Write to{" "}
+            <a href={`mailto:${CONFIG.reservationsEmail}`} className="font-medium text-gold hover:text-gold-hover">
+              {CONFIG.reservationsEmail}
+            </a>
+            .
+          </div>
           <div className="mt-3 text-xs leading-[1.5] text-stone-400">
             Free cancellation up to 7 days before check-in. See the full policy under Good to know.
           </div>

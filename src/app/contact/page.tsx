@@ -29,8 +29,8 @@ export default function ContactPage() {
               <div key={c.label} className="rounded-[14px] border border-stone-200 bg-white p-[clamp(14px,3.4vw,22px)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[.07em] text-stone-500">{c.label}</div>
                 <div className="mt-2 text-[15.5px] font-medium">
-                  {c.value === CONFIG.email ? (
-                    <a href={`mailto:${CONFIG.email}`} className="text-stone-900 hover:text-gold">
+                  {c.email && c.value === c.email ? (
+                    <a href={`mailto:${c.email}`} className="text-stone-900 hover:text-gold">
                       {c.value}
                     </a>
                   ) : (
@@ -38,6 +38,14 @@ export default function ContactPage() {
                   )}
                 </div>
                 <div className="mt-[5px] text-[13.5px] leading-[1.5] text-stone-500">{c.note}</div>
+                {c.email && c.value !== c.email && (
+                  <a
+                    href={`mailto:${c.email}`}
+                    className="mt-1.5 inline-block break-all text-[13.5px] font-medium text-gold hover:text-gold-hover"
+                  >
+                    {c.email}
+                  </a>
+                )}
               </div>
             ))}
           </div>

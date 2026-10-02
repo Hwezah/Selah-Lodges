@@ -14,6 +14,8 @@ export const CONFIG = {
   showBlockedDates: true,
   phones: ["+256 776 401 100", "+256 751 401 198"],
   email: "info@selahlodges.com",
+  // Booking questions: shown next to booking, checkout and payment steps.
+  reservationsEmail: "reservations@selahlodges.com",
   // Penny Baluti's personal address, shown where the site talks about the founder.
   founderEmail: "pennybaluti@gmail.com",
 } as const;
@@ -362,13 +364,14 @@ export const TIMELINE = [
   },
 ];
 
-export const CONTACT_CARDS = [
+export const CONTACT_CARDS: { label: string; value: string; note: string; email?: string }[] = [
   {
     label: "Direct reservations",
     value: "+256 776 401 100 · +256 751 401 198",
-    note: "Call or WhatsApp either line to book.",
+    note: "Call or WhatsApp either line to book, or email us.",
+    email: CONFIG.reservationsEmail,
   },
-  { label: "Email", value: CONFIG.email, note: "For enquiries, bookings and group stays." },
+  { label: "Email", value: CONFIG.email, note: "For general enquiries and group stays.", email: CONFIG.email },
   { label: "Selah address", value: "Komamboga | Kyanja — Proximity", note: "Selah Lodges, Kampala." },
   {
     label: "Approximate travel time",
