@@ -13,7 +13,9 @@ export const CONFIG = {
   // Placeholder availability until bookings live in a database.
   showBlockedDates: true,
   phones: ["+256 776 401 100", "+256 751 401 198"],
-  email: "reservations@selahlodges.com",
+  email: "info@selahlodges.com",
+  // Penny Baluti's personal address, shown where the site talks about the founder.
+  founderEmail: "pennybaluti@gmail.com",
 } as const;
 
 export type ApartmentId = "apartment-1" | "apartment-2";
@@ -366,6 +368,7 @@ export const CONTACT_CARDS = [
     value: "+256 776 401 100 · +256 751 401 198",
     note: "Call or WhatsApp either line to book.",
   },
+  { label: "Email", value: CONFIG.email, note: "For enquiries, bookings and group stays." },
   { label: "Selah address", value: "Komamboga | Kyanja — Proximity", note: "Selah Lodges, Kampala." },
   {
     label: "Approximate travel time",

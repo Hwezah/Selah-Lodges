@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { PhotoButton } from "@/components/site/lightbox";
 import { Container, Eyebrow } from "@/components/site/ui";
-import { STATS, TIMELINE } from "@/lib/data";
+import { CONFIG, STATS, TIMELINE } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About",
@@ -27,6 +27,12 @@ export default function AboutPage() {
             <p className="mt-3.5 max-w-[56ch] text-[16.5px] leading-[1.7] text-stone-700">
               We are one of the top lodges in Komamboga near Kyanja, Kampala — offering thoughtfully curated spaces for
               rest, reflection, and personal renewal.
+            </p>
+            <p className="mt-5 text-[15px] text-stone-600">
+              Write to Penny directly:{" "}
+              <a href={`mailto:${CONFIG.founderEmail}`} className="font-medium text-gold hover:text-gold-hover">
+                {CONFIG.founderEmail}
+              </a>
             </p>
           </div>
           <PhotoButton

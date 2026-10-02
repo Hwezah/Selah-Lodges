@@ -7,7 +7,7 @@ import { AlbumChip } from "@/components/site/album-chip";
 import { SpecIcon } from "@/components/site/icon";
 import { PhotoButton } from "@/components/site/lightbox";
 import { BackLink, Container } from "@/components/site/ui";
-import { APARTMENTS, fullSpecs, listedAmenities } from "@/lib/data";
+import { APARTMENTS, CONFIG, fullSpecs, listedAmenities } from "@/lib/data";
 
 export function generateStaticParams() {
   return APARTMENTS.map((a) => ({ id: a.id }));
@@ -89,6 +89,12 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
               <div>
                 <div className="text-[15px] font-semibold">Hosted by Penny</div>
                 <div className="mt-[3px] text-[13.5px] text-stone-500">Founder &amp; Managing Director · replies on WhatsApp</div>
+                <a
+                  href={`mailto:${CONFIG.founderEmail}`}
+                  className="mt-1 inline-block break-all text-[13.5px] font-medium text-gold hover:text-gold-hover"
+                >
+                  {CONFIG.founderEmail}
+                </a>
               </div>
             </div>
           </div>

@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact/contact-form";
 import { Container } from "@/components/site/ui";
-import { CONTACT_CARDS } from "@/lib/data";
+import { CONFIG, CONTACT_CARDS } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Call or WhatsApp +256 776 401 100 or +256 751 401 198, or email reservations@selahlodges.com.",
+  description: `Call or WhatsApp +256 776 401 100 or +256 751 401 198, or email ${CONFIG.email}.`,
 };
 
 export default function ContactPage() {
@@ -28,7 +28,15 @@ export default function ContactPage() {
             {CONTACT_CARDS.map((c) => (
               <div key={c.label} className="rounded-[14px] border border-stone-200 bg-white p-[clamp(14px,3.4vw,22px)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[.07em] text-stone-500">{c.label}</div>
-                <div className="mt-2 text-[15.5px] font-medium">{c.value}</div>
+                <div className="mt-2 text-[15.5px] font-medium">
+                  {c.value === CONFIG.email ? (
+                    <a href={`mailto:${CONFIG.email}`} className="text-stone-900 hover:text-gold">
+                      {c.value}
+                    </a>
+                  ) : (
+                    c.value
+                  )}
+                </div>
                 <div className="mt-[5px] text-[13.5px] leading-[1.5] text-stone-500">{c.note}</div>
               </div>
             ))}

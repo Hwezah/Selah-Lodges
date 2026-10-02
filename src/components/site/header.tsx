@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import { displayName, useAuth } from "@/context/auth-context";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
-import { APARTMENTS, NAV_ITEMS } from "@/lib/data";
+import { APARTMENTS, CONFIG, NAV_ITEMS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const iconBtn =
@@ -375,8 +375,8 @@ function Drawer() {
             <a href="tel:+256776401100" onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
               +256 776 401 100
             </a>
-            <a href="mailto:reservations@selahlodges.com" onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
-              reservations@selahlodges.com
+            <a href={`mailto:${CONFIG.email}`} onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
+              {CONFIG.email}
             </a>
           </div>
         </div>,

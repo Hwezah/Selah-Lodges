@@ -6,7 +6,7 @@ import { Field, TextArea, TextInput } from "@/components/site/field";
 import { useUI } from "@/context/ui-context";
 import { CONFIG } from "@/lib/data";
 
-// TODO: post enquiries to an API route that emails reservations@ once email is set up.
+// TODO: post enquiries to an API route that emails CONFIG.email once email sending is set up.
 export function ContactForm() {
   const { toast } = useUI();
   const [name, setName] = useState("");
