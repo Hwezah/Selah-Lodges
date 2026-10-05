@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { PhotoButton } from "@/components/site/lightbox";
@@ -85,26 +84,6 @@ export function Hero() {
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>
-        {/* Hidden on phones in portrait, where the sticky "Book a room" bar takes over. */}
-        <div className="mt-8 hidden flex-nowrap items-center gap-4 whitespace-nowrap sm:flex">
-          <Link
-            href="/#stays"
-            className="inline-flex h-14 flex-none items-center gap-2.5 rounded-full bg-white px-8 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-              <path d="M7 17 17 7" />
-              <path d="M8 7h9v9" />
-            </svg>
-            Book a room
-          </Link>
-          <span className="font-display text-[15px] italic text-stone-50/70">or</span>
-          <Link
-            href="/services"
-            className="min-w-0 border-b border-stone-50/60 pb-1 text-[12.5px] font-medium uppercase tracking-[.14em] text-stone-50 hover:border-stone-50 hover:text-stone-50"
-          >
-            Explore services
-          </Link>
-        </div>
       </div>
 
       <div className="absolute top-[84px] right-[clamp(16px,4vw,24px)] flex items-center gap-3">
