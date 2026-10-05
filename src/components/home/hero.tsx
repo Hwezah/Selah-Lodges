@@ -97,10 +97,10 @@ export function Hero() {
             </svg>
             Book a room
           </Link>
-          <span className="font-display text-[15px] italic text-stone-50/70">or</span>
+          <span className="font-display text-[15px] text-stone-50/70">or</span>
           <Link
             href="/services"
-            className="min-w-0 border-b border-stone-50/60 pb-1 text-[12.5px] font-medium uppercase tracking-[.14em] text-stone-50 hover:border-stone-50 hover:text-stone-50"
+            className="inline-flex h-14 flex-none items-center rounded-full bg-gold-soft px-8 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900"
           >
             Explore services
           </Link>
