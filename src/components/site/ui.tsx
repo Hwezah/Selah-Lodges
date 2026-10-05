@@ -107,16 +107,28 @@ export function StepperButton({ className, ...props }: ComponentProps<"button">)
 
 export function GuestStepper({ size = "sm" }: { size?: "sm" | "lg" }) {
   const { incGuests, decGuests } = useBooking();
-  const cls = size === "lg" ? "size-[38px] text-[17px]" : "";
+  const lg = size === "lg";
+  const cls = lg ? "size-[38px]" : "";
+  const icon = lg ? 22 : 18;
   return (
     <div className="flex flex-none gap-1.5">
       <StepperButton className={cls} onClick={decGuests} aria-label="Fewer guests">
-        −
+        <StepIcon size={icon} />
       </StepperButton>
       <StepperButton className={cls} onClick={incGuests} aria-label="More guests">
-        +
+        <StepIcon size={icon} plus />
       </StepperButton>
     </div>
+  );
+}
+
+/** Thin-stroke minus / plus, drawn rather than typed so the weight is even. */
+function StepIcon({ size, plus = false }: { size: number; plus?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" aria-hidden="true">
+      <path d="M5 12h14" />
+      {plus && <path d="M12 5v14" />}
+    </svg>
   );
 }
 
