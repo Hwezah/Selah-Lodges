@@ -91,4 +91,3 @@ npm run capture   # writes screenshots/<width>/<route>.png
   availability comes from the database.
 - **SMS/email is not sent** — confirmations are notifications in the UI only.
 - **Card payments (DPO Pay)** are shown as "coming soon"; see the handoff README for the integration plan.
-- The supermarket card uses a placeholder photo (`svc-supermarket.jpg`) — no supermarket image was supplied.
