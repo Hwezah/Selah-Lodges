@@ -14,7 +14,7 @@ export function showsBookBar(pathname: string) {
 /** Sticky bottom "Book a room" bar, mobile portrait only (< 640px). */
 export function BookBar() {
   const pathname = usePathname();
-  const { panel } = useUI();
+  const { panel, closePanels } = useUI();
   if (!showsBookBar(pathname)) return null;
   const gold = panel === "drawer";
 
@@ -28,6 +28,8 @@ export function BookBar() {
     >
       <Link
         href="/#stays"
+        // Close the menu (it stays open over the page on a same-page jump) before heading to the rooms.
+        onClick={closePanels}
         data-m-btn
         className={cn(
           "flex min-h-12 w-full items-center justify-center rounded-xl text-[15px] font-medium",
