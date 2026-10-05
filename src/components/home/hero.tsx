@@ -97,7 +97,7 @@ export function Hero() {
             </svg>
             Book a room
           </Link>
-          <span className="font-display text-[15px] text-stone-50/70">or</span>
+          <span aria-hidden="true" className="h-8 w-px bg-stone-50/60" />
           <Link
             href="/services"
             className="inline-flex h-14 flex-none items-center rounded-full bg-gold px-8 text-[15px] font-medium text-stone-50 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-hover hover:text-stone-50"
