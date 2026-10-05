@@ -43,6 +43,8 @@ export const metadata: Metadata = {
     images: [{ url: "/images/hero-living.jpg", width: 1024, height: 768, alt: "Selah Lodges living room" }],
   },
   twitter: { card: "summary_large_image", title: "Selah Lodges", description, images: ["/images/hero-living.jpg"] },
+  // Google Search Console ownership check (needed for Google sign-in branding).
+  verification: { google: "NDPiNzjbIsabrPEITKdOiCoP19or2HgdurQwtfgFUEY" },
 };
 
 export const viewport: Viewport = { themeColor: "#B9975B" };
