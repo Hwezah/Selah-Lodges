@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { useUI } from "@/context/ui-context";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ export function showsBookBar(pathname: string) {
 export function BookBar() {
   const pathname = usePathname();
   const { panel, closePanels } = useUI();
+  const atRooms = useRoomsInView(pathname);
   if (!showsBookBar(pathname)) return null;
   const gold = panel === "drawer";
 
@@ -36,10 +38,31 @@ export function BookBar() {
           gold ? "bg-stone-50 text-gold" : "bg-gold text-stone-50",
         )}
       >
-        {pathname === "/" ? "Book a room" : "Back to rooms"}
+        {pathname !== "/" ? "Back to rooms" : atRooms ? "Pick a room to stay" : "Book a room"}
       </Link>
     </div>
   );
+}
+
+/**
+ * True while the home page's rooms section (#stays) fills the middle of the screen, so the bar can stop
+ * saying "Book a room" once the visitor is already looking at the rooms.
+ */
+function useRoomsInView(pathname: string) {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = pathname === "/" ? document.getElementById("stays") : null;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      rootMargin: "-45% 0px -45% 0px",
+    });
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      setInView(false);
+    };
+  }, [pathname]);
+  return inView;
 }
 
 /** Adds bottom padding so the fixed book bar never covers page content. */
