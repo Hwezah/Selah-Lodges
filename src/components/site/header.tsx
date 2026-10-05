@@ -9,6 +9,7 @@ import { createPortal } from "react-dom";
 import { displayName, useAuth } from "@/context/auth-context";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
+import { datesLabel, guestsLabel, isoDate } from "@/lib/booking";
 import { APARTMENTS, CONFIG, NAV_ITEMS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -129,6 +130,7 @@ const personIcon = (
 function AccountMenu() {
   const { panel, togglePanel, closePanels } = useUI();
   const { enabled, user, isAdmin, openAuth, signOut } = useAuth();
+  const { orders } = useBooking();
   const open = panel === "account";
 
   if (enabled && !user) {
@@ -140,7 +142,22 @@ function AccountMenu() {
   }
 
   const name = user ? displayName(user) : "";
-  const item = "flex w-full items-center gap-2.5 px-4 py-3 text-left text-[13.5px] text-stone-900 hover:bg-stone-50 hover:text-stone-900";
+  const since = user?.created_at
+    ? new Date(user.created_at).toLocaleDateString("en-GB", { month: "long", year: "numeric" })
+    : null;
+  const today = isoDate(new Date());
+  const nextStay = orders
+    .filter((o) => (o.status === "pending" || o.status === "confirmed") && o.checkIn && o.checkIn >= today)
+    .sort((a, b) => (a.checkIn ?? "").localeCompare(b.checkIn ?? ""))[0];
+  const liveTrips = orders.filter((o) => o.status !== "cancelled" && o.status !== "declined").length;
+  const row =
+    "group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-[14px] text-stone-900 transition-colors hover:bg-gold-tint hover:text-stone-900";
+  const rowIcon = "grid size-9 flex-none place-items-center rounded-full bg-stone-100 text-stone-700 transition-colors group-hover:bg-white group-hover:text-gold";
+  const chevron = (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-none text-stone-300 group-hover:text-gold" aria-hidden="true">
+      <path d="m9 6 6 6-6 6" />
+    </svg>
+  );
 
   return (
     <div className="relative flex-none" data-keep-open>
@@ -149,50 +166,125 @@ function AccountMenu() {
         onClick={() => togglePanel("account")}
         aria-label="Account"
         aria-expanded={open}
-        className={user ? "ml-1 grid size-7 flex-none place-items-center rounded-full bg-gold text-xs font-semibold uppercase text-stone-50 hover:bg-gold-hover" : iconBtn}
+        className={user ? "ml-1 grid size-8 flex-none place-items-center rounded-full bg-gold font-display text-[14px] uppercase text-stone-50 ring-2 ring-white/70 hover:bg-gold-hover" : iconBtn}
       >
         {user ? name.charAt(0) : personIcon}
       </button>
       {open && (
-        <div className={cn(panelCls, "w-[min(360px,calc(100vw-24px))] sm:w-[min(280px,calc(100vw-28px))]")}>
-          <div className="border-b border-stone-100 px-4 py-3.5">
-            {user ? (
-              <>
-                <div className="truncate text-[13.5px] font-semibold">{name}</div>
-                <div className="mt-0.5 truncate text-[12.5px] text-stone-500">{user.email}</div>
-              </>
-            ) : (
-              <>
+        <div className={cn(panelCls, "w-[min(360px,calc(100vw-24px))] sm:w-[min(330px,calc(100vw-28px))]")}>
+          {user ? (
+            <>
+              {/* Photo banner with the guest's initial overlapping it. */}
+              <div className="relative h-[92px] overflow-hidden">
+                <Image src="/images/hero-balcony.jpg" alt="" fill sizes="340px" className="object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/10 to-stone-900/25" />
+                <div className="absolute top-3 right-3.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[.14em] text-stone-50/90">
+                  <Image src="/images/selah-mark.png" alt="" width={16} height={16} className="size-4 object-contain brightness-0 invert" />
+                  Selah guest
+                </div>
+              </div>
+              <div className="px-4">
+                <div className="relative -mt-8 grid size-16 place-items-center rounded-full bg-gold font-display text-[28px] uppercase text-stone-50 ring-4 ring-white">
+                  {name.charAt(0)}
+                </div>
+                <div className="mt-2.5 truncate font-display text-[21px] leading-tight">{name}</div>
+                <div className="mt-0.5 truncate text-[13px] text-stone-500">{user.email}</div>
+                {since && <div className="mt-1 text-[12px] text-stone-400">Guest since {since}</div>}
+              </div>
+
+              {nextStay ? (
+                <Link
+                  href="/trips"
+                  onClick={closePanels}
+                  className="mx-3 mt-4 block rounded-xl border border-gold-soft bg-gold-tint px-3.5 py-3 hover:border-gold"
+                >
+                  <div className="text-[11px] font-semibold uppercase tracking-[.14em] text-gold">Your next stay</div>
+                  <div className="mt-1 text-[14px] font-medium text-stone-900">{nextStay.apartment}</div>
+                  <div className="mt-0.5 text-[12.5px] text-stone-600">
+                    {datesLabel(nextStay.checkIn, nextStay.checkOut)} · {guestsLabel(nextStay.guests)}
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  href="/#stays"
+                  onClick={closePanels}
+                  className="mx-3 mt-4 block rounded-xl border border-gold-soft bg-gold-tint px-3.5 py-3 hover:border-gold"
+                >
+                  <div className="text-[11px] font-semibold uppercase tracking-[.14em] text-gold">Plan your stay</div>
+                  <div className="mt-1 text-[13.5px] leading-[1.45] text-stone-700">
+                    No upcoming stays yet. Pick your dates and we&apos;ll hold an apartment for you.
+                  </div>
+                </Link>
+              )}
+
+              <nav className="grid gap-0.5 p-2 pt-3" aria-label="Account">
+                <Link href="/trips" onClick={closePanels} className={row}>
+                  <span className={rowIcon}>
+                    <TripsIcon />
+                  </span>
+                  Your trips
+                  {liveTrips > 0 && (
+                    <span className="ml-auto rounded-full bg-gold px-2 py-0.5 text-[11px] font-semibold text-stone-50">{liveTrips}</span>
+                  )}
+                  {liveTrips === 0 && chevron}
+                </Link>
+                <Link href="/contact" onClick={closePanels} className={row}>
+                  <span className={rowIcon}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 12a8.5 8.5 0 0 1-12.4 7.6L3 21l1.4-5.6A8.5 8.5 0 1 1 21 12z" />
+                    </svg>
+                  </span>
+                  Talk to your host
+                  {chevron}
+                </Link>
+                {isAdmin && (
+                  <Link href="/admin" onClick={closePanels} className={row}>
+                    <span className={rowIcon}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M12 2.9 4.6 6v6.1c0 4.4 3.1 7.5 7.4 9 4.3-1.5 7.4-4.6 7.4-9V6z" />
+                      </svg>
+                    </span>
+                    Admin console
+                    {chevron}
+                  </Link>
+                )}
+              </nav>
+
+              <div className="border-t border-stone-100 p-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    closePanels();
+                    void signOut();
+                  }}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-[13.5px] font-medium text-stone-500 transition-colors hover:bg-red-50 hover:text-red-700"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" />
+                    <path d="M10 17l-5-5 5-5" />
+                    <path d="M5 12h11" />
+                  </svg>
+                  Sign out
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="border-b border-stone-100 px-4 py-3.5">
                 <div className="text-[13.5px] font-semibold">Your account</div>
                 <div className="mt-1 text-[12.5px] leading-[1.5] text-stone-500">
                   Sign-in is coming soon. Your trips are saved on this device for now.
                 </div>
-              </>
-            )}
-          </div>
-          <Link href="/trips" onClick={closePanels} className={item}>
-            <TripsIcon />
-            Your trips
-          </Link>
-          {isAdmin && (
-            <Link href="/admin" onClick={closePanels} className={cn(item, "border-t border-stone-100")}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2.9 4.6 6v6.1c0 4.4 3.1 7.5 7.4 9 4.3-1.5 7.4-4.6 7.4-9V6z" />
-              </svg>
-              Admin console
-            </Link>
-          )}
-          {user && (
-            <button
-              type="button"
-              onClick={() => {
-                closePanels();
-                void signOut();
-              }}
-              className={cn(item, "border-t border-stone-100 text-red-700 hover:bg-red-50 hover:text-red-700")}
-            >
-              Sign out
-            </button>
+              </div>
+              <Link
+                href="/trips"
+                onClick={closePanels}
+                className="flex w-full items-center gap-2.5 px-4 py-3 text-left text-[13.5px] text-stone-900 hover:bg-stone-50 hover:text-stone-900"
+              >
+                <TripsIcon />
+                Your trips
+              </Link>
+            </>
           )}
         </div>
       )}

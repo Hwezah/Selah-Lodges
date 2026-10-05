@@ -57,11 +57,11 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className={cn(
-              "absolute top-3 right-3 grid size-12 place-items-center rounded-full text-stone-700 transition-colors hover:text-stone-900 focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
+              "absolute top-3 right-3 grid size-14 place-items-center rounded-full text-stone-700 transition-colors hover:text-stone-900 focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
               closeClassName,
             )}
           >
-            <svg width="24" height="24" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" aria-hidden="true">
               <path d="M5 5 17 17" />
               <path d="M17 5 5 17" />
             </svg>

@@ -190,8 +190,8 @@ export function AuthDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className="gap-0 p-0"
-        // Same inset as the content, vertically centred on the 26px logo row.
-        closeClassName="top-[calc(clamp(22px,5vw,28px)-10px)] right-[clamp(20px,5vw,28px)]"
+        // Centred on the 26px logo row; nudged out so the ✕ itself lines up with the form edge.
+        closeClassName="top-[calc(clamp(22px,5vw,28px)-14px)] right-[calc(clamp(20px,5vw,28px)-18px)]"
         onOpenAutoFocus={(e) => mode === "check-email" && e.preventDefault()}>
         <div className="px-[clamp(20px,5vw,28px)] pt-[clamp(22px,5vw,28px)]">
           <div className="flex items-center gap-[9px]">

@@ -7,6 +7,17 @@ import { supabaseEnabled, supabaseKey, supabaseUrl } from "@/lib/supabase/config
 export async function proxy(request: NextRequest) {
   if (!supabaseEnabled) return NextResponse.next();
 
+  // Supabase falls back to the Site URL (e.g. "/?code=…") when an email link's redirect isn't on its allow
+  // list. Hand those codes to the callback route so the sign-in still completes.
+  const { pathname, searchParams } = request.nextUrl;
+  const code = searchParams.get("code");
+  if (code && !pathname.startsWith("/auth/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/callback";
+    url.search = `?code=${encodeURIComponent(code)}&next=${encodeURIComponent(pathname)}`;
+    return NextResponse.redirect(url);
+  }
+
   let response = NextResponse.next({ request });
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
