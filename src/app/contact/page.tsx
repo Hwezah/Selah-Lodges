@@ -6,7 +6,7 @@ import { CONFIG, CONTACT_CARDS } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Call or WhatsApp +256 776 401 100 or +256 751 401 198, or email ${CONFIG.email}.`,
+  description: `Call +256 776 401 100 or +256 751 401 198, WhatsApp ${CONFIG.whatsappDisplay}, or email ${CONFIG.email}.`,
 };
 
 export default function ContactPage() {

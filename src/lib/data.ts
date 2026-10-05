@@ -8,7 +8,9 @@ export const CONFIG = {
     { network: "Airtel", number: "0751 401198", tel: "+256751401198" },
   ],
   momoName: "Peninah Baluti",
-  adminWhatsApp: "256776401100",
+  // WhatsApp goes to the second line only.
+  adminWhatsApp: "256751401198",
+  whatsappDisplay: "+256 751 401 198",
   ugxRate: 3800,
   cleaningFee: 10,
   serviceFeePct: 11,
@@ -145,11 +147,6 @@ export const HOME_PHOTOS: Photo[] = [
   { src: "/images/room2-living.jpg", alt: "One-Bed Apartment 2 living room" },
   { src: "/images/svc-carwash.jpg", alt: "Building and secure parking" },
 ];
-
-/** Every photo of the premises, once each: the home album plus both apartments and the shared spaces. */
-export const PREMISE_PHOTOS: Photo[] = [...HOME_PHOTOS, ...TOUR_SLIDES].filter(
-  (p, i, all) => all.findIndex((x) => x.src === p.src) === i,
-);
 
 /** Home page tour video. Drop the file at public/videos/selah-tour.mp4. */
 export const TOUR_VIDEO = {
@@ -379,7 +376,7 @@ export const CONTACT_CARDS: { label: string; value: string; note: string; email?
     label: "Direct reservations",
     value: "+256 776 401 100 · +256 751 401 198",
     phones: true,
-    note: "Call or WhatsApp either line to book, or email us.",
+    note: "Call either line to book. WhatsApp +256 751 401 198, or email us.",
     email: CONFIG.reservationsEmail,
   },
   { label: "Email", value: CONFIG.email, note: "For general enquiries and group stays.", email: CONFIG.email },

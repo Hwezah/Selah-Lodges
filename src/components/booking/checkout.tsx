@@ -326,7 +326,7 @@ export function Checkout() {
             Request booking on WhatsApp
           </button>
           <div className="mt-2 text-xs leading-[1.5] text-stone-500">
-            Sends your dates, guests and total straight to Penny on WhatsApp — she confirms and holds the apartment.
+            Sends your dates, guests and total straight to Penny on WhatsApp ({CONFIG.whatsappDisplay}) — she confirms and holds the apartment.
             Or call <Phones className="font-normal" />.
           </div>
           <div className="mt-2 text-xs leading-[1.5] text-stone-500">

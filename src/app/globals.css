@@ -49,8 +49,6 @@
   --animate-sheet-in: sheetIn 0.16s ease-out;
   --animate-toast-in: toastIn 0.2s ease-out;
   --animate-reveal-up: revealUp 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both;
-  /* Endless left glide; the track holds the tiles twice, so -50% lands on an identical frame. */
-  --animate-marquee: marquee 60s linear infinite;
 
   @keyframes sheetIn {
     from { opacity: 0; transform: translateY(-6px); }
@@ -59,10 +57,6 @@
   @keyframes toastIn {
     from { opacity: 0; transform: translateY(8px) scale(0.98); }
     to { opacity: 1; transform: none; }
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
   }
   @keyframes revealUp {
     from { opacity: 0; transform: translateY(14px); }

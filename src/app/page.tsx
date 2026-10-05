@@ -5,6 +5,7 @@ import { Faq } from "@/components/home/faq";
 import { HomeTop } from "@/components/home/home-top";
 import { VideoShowcase } from "@/components/home/video-showcase";
 import { Container, Phones } from "@/components/site/ui";
+import { whatsappUrl } from "@/lib/booking";
 import { CONFIG, PERKS, REVIEWS, TOUR_SLIDES, TOUR_VIDEO } from "@/lib/data";
 
 export default function HomePage() {
@@ -63,7 +64,11 @@ export default function HomePage() {
             <div data-m-center className="min-w-0 flex-[1_1_260px] md:sticky md:top-[92px]">
               <h2 className="font-display text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">Good to know</h2>
               <p className="mt-3 text-[15px] leading-[1.6] text-stone-600">
-                Still deciding? Call or WhatsApp <Phones />, or email{" "}
+                Still deciding? Call <Phones />, WhatsApp{" "}
+                <a href={whatsappUrl([])} target="_blank" rel="noopener" className="whitespace-nowrap font-medium text-gold hover:text-gold-hover">
+                  {CONFIG.whatsappDisplay}
+                </a>
+                , or email{" "}
                 <a href={`mailto:${CONFIG.reservationsEmail}`} className="font-medium text-gold hover:text-gold-hover">
                   {CONFIG.reservationsEmail}
                 </a>
