@@ -410,7 +410,7 @@ function Drawer() {
           data-keep-open
           role="dialog"
           aria-label="Selah Lodges"
-          className="fixed top-0 right-0 z-80 h-screen w-screen max-w-screen animate-sheet-in overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)] sm:w-[min(560px,max(35vw,320px))]"
+          className="fixed top-0 right-0 z-80 h-screen w-[35vw] animate-sheet-in mportrait:w-screen overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)]"
         >
           {/* Phones: large logo mark centred on top. Wider: mark + name left, close right. The mark is
               gold artwork, rendered white so it shows on the gold drawer. */}
@@ -424,15 +424,16 @@ function Drawer() {
                 className="size-[72px] object-contain brightness-0 invert"
               />
             </Link>
-            <Link href="/" onClick={closePanels} className="flex items-center gap-3 text-stone-50 hover:text-stone-50">
+            <Link href="/" onClick={closePanels} className="flex min-w-0 items-center gap-3 text-stone-50 hover:text-stone-50">
               <Image
                 src="/images/selah-mark.png"
                 alt=""
                 width={36}
                 height={36}
-                className="hidden size-9 object-contain brightness-0 invert sm:block"
+                className="hidden size-9 flex-none object-contain brightness-0 invert lg:block"
               />
-              <span className="font-display whitespace-nowrap text-[26px]">Selah Lodges</span>
+              {/* The panel is 35vw wide, so the name scales with the screen; the mark joins it from 900px. */}
+              <span className="font-display whitespace-nowrap text-[26px] sm:text-[clamp(17px,2vw,26px)]">Selah Lodges</span>
             </Link>
             <button
               type="button"
@@ -452,7 +453,7 @@ function Drawer() {
               src="/images/room1-bedroom.jpg"
               alt="A Selah Lodges bedroom"
               fill
-              sizes="(min-width: 640px) 560px, 100vw"
+              sizes="(max-width: 600px) and (orientation: portrait) 100vw, 35vw"
               className="object-cover"
             />
           </div>

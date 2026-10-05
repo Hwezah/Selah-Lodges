@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Phones held upright: same query as the mobile portrait rules (docs/mobile-portrait-rules.md). */
+@custom-variant mportrait (@media (max-width: 600px) and (orientation: portrait));
+
 /*
  * Breakpoints mirror the prototype's width tiers (it switched on
  * window.innerWidth; here they are plain CSS media queries).
