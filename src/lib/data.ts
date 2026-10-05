@@ -301,6 +301,7 @@ export const NAV_ITEMS = [
   { label: "About", href: "/about" },
   { label: "Trips", href: "/trips" },
   { label: "Contact", href: "/contact" },
+  { label: "Policies", href: "/policies" },
 ] as const;
 
 export const PERKS = [
