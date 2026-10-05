@@ -53,11 +53,14 @@ public/images/            client photos (compressed JPEG)
 
 ## Supabase Auth setup
 
-1. Create a project at [supabase.com](https://supabase.com). Copy **Project URL** and the **publishable (anon)
-   key** into `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (locally and in Vercel).
-2. **Authentication → URL Configuration:** set *Site URL* to the live domain and add redirect URLs:
-   `https://<your-domain>/auth/callback`, `https://*-<vercel-team>.vercel.app/auth/callback` and
-   `http://localhost:3000/auth/callback`.
+1. Create a project at [supabase.com](https://supabase.com) (automatic RLS on). Copy the **Project URL** (just
+   `https://<project-ref>.supabase.co`, no `/rest/v1/`) and the **publishable (anon) key** into
+   `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, locally and in Vercel. In Vercel, add
+   both as **Config** variables (they are public by design) and `ADMIN_EMAILS` as a **Secret**. Redeploy after
+   changing them.
+2. **Authentication → URL Configuration:** set *Site URL* to the primary domain (`https://www.selahlodges.com`)
+   and add redirect URLs: `https://selahlodges.com/auth/callback`, `https://www.selahlodges.com/auth/callback`,
+   `https://*.vercel.app/auth/callback` and `http://localhost:3000/auth/callback`.
 3. **Authentication → Sign In / Providers → Google:** enable it with a Google Cloud OAuth client
    (authorised redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`). Email + password is on by
    default; keep "Confirm email" on.
