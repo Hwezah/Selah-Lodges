@@ -21,8 +21,8 @@ function scrollToStays() {
 
 /**
  * True when the visitor arrived at #stays from a "Book a stay" / "Book a room" link. Clicks are recorded
- * directly, because Next's <Link> changes the URL with pushState a moment later and fires no event.
- * Before any click (a fresh page load), the URL hash decides.
+ * directly (and handled here: see the scroll below). Before any click, on a fresh page load, the URL hash
+ * decides.
  */
 let lastClick: "book" | "home" | null = null;
 
@@ -31,8 +31,15 @@ function useArrivedToBook() {
     (onChange) => {
       const onClick = (e: MouseEvent) => {
         const href = (e.target as Element | null)?.closest?.("a[href]")?.getAttribute("href") ?? "";
-        if (href.endsWith("#stays")) lastClick = "book";
-        else if (href === "/") lastClick = "home";
+        if (href.endsWith("#stays")) {
+          lastClick = "book";
+          // We're on the home page (this component only renders there). Scroll ourselves: Next's <Link>
+          // does nothing when the URL already ends in #stays.
+          e.preventDefault();
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          document.getElementById("stays")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+          if (window.location.hash !== "#stays") window.history.pushState(null, "", "/#stays");
+        } else if (href === "/") lastClick = "home";
         else return;
         onChange();
       };
