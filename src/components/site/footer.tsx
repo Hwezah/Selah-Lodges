@@ -13,6 +13,12 @@ export function SiteFooter() {
               {n.label}
             </Link>
           ))}
+          <Link href="/privacy" className="hover:text-stone-900">
+            Privacy
+          </Link>
+          <Link href="/terms" className="hover:text-stone-900">
+            Terms
+          </Link>
           <span>© 2026 Selah Lodges</span>
         </div>
       </div>
