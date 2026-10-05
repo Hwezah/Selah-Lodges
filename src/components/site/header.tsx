@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 import { displayName, useAuth } from "@/context/auth-context";
@@ -12,7 +13,19 @@ import { APARTMENTS, CONFIG, NAV_ITEMS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const iconBtn =
-  "relative grid h-[38px] w-[clamp(30px,8vw,38px)] flex-none place-items-center text-stone-700 hover:text-gold";
+  "relative grid h-[38px] w-[clamp(30px,8vw,38px)] flex-none place-items-center text-stone-700 transition-colors hover:text-gold group-data-[over=true]/hdr:text-stone-50 group-data-[over=true]/hdr:hover:text-gold-soft";
+
+/** True once the page has scrolled past the very top. */
+function useScrolled(threshold = 8) {
+  return useSyncExternalStore(
+    (cb) => {
+      window.addEventListener("scroll", cb, { passive: true });
+      return () => window.removeEventListener("scroll", cb);
+    },
+    () => window.scrollY > threshold,
+    () => false,
+  );
+}
 // Header panels: a centred sheet on phones (the trigger isn't at the screen
 // edge, so an anchored panel could run off-screen), anchored below the icon
 // from 640px up.
@@ -26,14 +39,38 @@ function isActive(href: string, pathname: string) {
   return pathname.startsWith(href);
 }
 
+/**
+ * Transparent at the top of the page, frosted glass once scrolled. On the home
+ * page it floats over the full-bleed hero photo with white text until scrolled.
+ */
 export function SiteHeader() {
   const pathname = usePathname();
+  const scrolled = useScrolled();
+  const home = pathname === "/";
+  const overHero = home && !scrolled;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-stone-200 bg-stone-50/85 backdrop-blur-md">
+    <header
+      data-over={overHero}
+      className={cn(
+        "group/hdr top-0 z-40 border-b transition-[background-color,border-color,backdrop-filter] duration-300",
+        home ? "fixed inset-x-0" : "sticky",
+        scrolled ? "border-stone-200 bg-stone-50/85 backdrop-blur-md" : "border-transparent bg-transparent",
+      )}
+    >
       <div className="mx-auto flex min-h-[68px] max-w-[1400px] items-center gap-[clamp(10px,2vw,28px)] px-[clamp(14px,3vw,24px)]">
-        <Link href="/" className="mr-1 flex min-w-0 items-center gap-[9px] text-stone-900 hover:text-stone-900">
-          <Image src="/images/selah-mark.png" alt="" width={26} height={26} className="size-[26px] object-contain" priority />
+        <Link
+          href="/"
+          className="mr-1 flex min-w-0 items-center gap-[9px] text-stone-900 transition-colors hover:text-stone-900 group-data-[over=true]/hdr:text-stone-50"
+        >
+          <Image
+            src="/images/selah-mark.png"
+            alt=""
+            width={26}
+            height={26}
+            className="size-[26px] object-contain group-data-[over=true]/hdr:brightness-0 group-data-[over=true]/hdr:invert"
+            priority
+          />
           <span className="font-display whitespace-nowrap text-[clamp(17px,3.4vw,22px)] tracking-[-.01em]">
             Selah Lodges
           </span>
@@ -49,7 +86,9 @@ export function SiteHeader() {
                 aria-current={on ? "page" : undefined}
                 className={cn(
                   "flex h-[34px] items-center border-b-2 px-2.5 text-sm",
-                  on ? "border-gold font-semibold text-gold" : "border-transparent text-stone-600 hover:text-stone-900",
+                  on
+                    ? "border-gold font-semibold text-gold group-data-[over=true]/hdr:border-gold-soft group-data-[over=true]/hdr:text-gold-soft"
+                    : "border-transparent text-stone-600 hover:text-stone-900 group-data-[over=true]/hdr:text-stone-50/85 group-data-[over=true]/hdr:hover:text-stone-50",
                 )}
               >
                 {n.label}
@@ -266,7 +305,7 @@ function Drawer() {
         onClick={() => togglePanel("drawer")}
         aria-label="About Selah Lodges"
         aria-expanded={open}
-        className="ml-[clamp(2px,1vw,8px)] grid h-11 w-[clamp(34px,8vw,70px)] flex-none place-items-center text-stone-700 hover:text-gold"
+        className="ml-[clamp(2px,1vw,8px)] grid h-11 w-[clamp(34px,8vw,70px)] flex-none place-items-center text-stone-700 transition-colors hover:text-gold group-data-[over=true]/hdr:text-stone-50 group-data-[over=true]/hdr:hover:text-gold-soft"
       >
         <svg width="100%" height="26" viewBox="0 0 66 26" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="0.9">
           <path d="M0 7h66" vectorEffect="non-scaling-stroke" />

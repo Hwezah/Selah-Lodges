@@ -67,6 +67,8 @@ export function Hero() {
           </div>
         );
       })}
+      {/* Soft top shade so the transparent header's white logo and links stay readable. */}
+      <div className="absolute inset-x-0 top-0 -z-10 h-48 bg-gradient-to-b from-stone-900/55 to-transparent" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-stone-900/80 via-stone-900/35 to-stone-900/25 lg:bg-gradient-to-r lg:from-stone-900/70 lg:via-stone-900/35 lg:to-stone-900/10" />
 
       <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[clamp(28px,4vw,44px)]">
@@ -106,7 +108,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute top-4 right-[clamp(16px,4vw,24px)] flex items-center gap-3">
+      <div className="absolute top-[84px] right-[clamp(16px,4vw,24px)] flex items-center gap-3">
         <div className="flex gap-1.5" aria-hidden="true">
           {SLIDES.map((s, i) => (
             <span
