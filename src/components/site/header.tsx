@@ -175,7 +175,7 @@ function AccountMenu() {
           {user ? (
             <>
               {/* Photo banner with the guest's initial overlapping it. */}
-              <div className="relative h-[92px] overflow-hidden">
+              <div className="relative h-[150px] overflow-hidden">
                 <Image src="/images/hero-balcony.jpg" alt="" fill sizes="340px" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/10 to-stone-900/25" />
                 <div className="absolute top-3 right-3.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[.14em] text-stone-50/90">
