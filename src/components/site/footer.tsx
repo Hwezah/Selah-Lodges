@@ -17,7 +17,7 @@ export function SiteFooter() {
             Privacy
           </Link>
           <Link href="/terms" className="hover:text-stone-900">
-            Terms
+            Policies
           </Link>
           <span>© 2026 Selah Lodges</span>
         </div>
