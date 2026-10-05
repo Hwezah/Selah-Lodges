@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 import { Hero } from "@/components/home/hero";
 import { ApartmentCard } from "@/components/site/apartment-card";
@@ -19,7 +19,37 @@ function scrollToStays() {
   if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: "smooth" });
 }
 
+/**
+ * True when the visitor arrived at #stays from a "Book a stay" / "Book a room" link. Clicks are recorded
+ * directly, because Next's <Link> changes the URL with pushState a moment later and fires no event.
+ * Before any click (a fresh page load), the URL hash decides.
+ */
+let lastClick: "book" | "home" | null = null;
+
+function useArrivedToBook() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const onClick = (e: MouseEvent) => {
+        const href = (e.target as Element | null)?.closest?.("a[href]")?.getAttribute("href") ?? "";
+        if (href.endsWith("#stays")) lastClick = "book";
+        else if (href === "/") lastClick = "home";
+        else return;
+        onChange();
+      };
+      window.addEventListener("hashchange", onChange);
+      document.addEventListener("click", onClick, true);
+      return () => {
+        window.removeEventListener("hashchange", onChange);
+        document.removeEventListener("click", onClick, true);
+      };
+    },
+    () => (lastClick ? lastClick === "book" : window.location.hash === "#stays"),
+    () => false,
+  );
+}
+
 export function HomeTop() {
+  const fromBooking = useArrivedToBook();
   const { checkIn, checkOut, guests, currency } = useBooking();
   const { panel, togglePanel, closePanels, toast } = useUI();
   const [filter, setFilter] = useState<Filter>(FILTERS[0]);
@@ -95,7 +125,9 @@ export function HomeTop() {
           <div data-m-center className="flex flex-wrap items-end justify-between gap-6">
             <div className="min-w-0">
               <Eyebrow>Selah accommodations</Eyebrow>
-              <h2 className="font-display mt-2.5 text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">Accommodation types</h2>
+              <h2 className="font-display mt-2.5 text-[clamp(27px,5.2vw,40px)] tracking-[-.015em] text-balance">
+                {fromBooking ? "Available accommodations — pick where to stay" : "Accommodation types"}
+              </h2>
             </div>
             <div data-m-center className="flex max-w-full min-w-0 flex-wrap items-center gap-3">
               <div data-m-center className="flex min-w-0 flex-wrap items-center gap-2">
