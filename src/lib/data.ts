@@ -2,8 +2,12 @@
 // (`docs/handoff/Selah Lodges.dc.html`). Copy is final unless noted.
 
 export const CONFIG = {
-  tillNumber: "MTN 0776 401100",
-  tillName: "Peninah Baluti · or Airtel 0751 401198",
+  // Mobile money numbers to pay into (both registered to Peninah Baluti).
+  momo: [
+    { network: "MTN", number: "0776 401100", tel: "+256776401100" },
+    { network: "Airtel", number: "0751 401198", tel: "+256751401198" },
+  ],
+  momoName: "Peninah Baluti",
   adminWhatsApp: "256776401100",
   ugxRate: 3800,
   cleaningFee: 10,
@@ -370,10 +374,11 @@ export const TIMELINE = [
   },
 ];
 
-export const CONTACT_CARDS: { label: string; value: string; note: string; email?: string }[] = [
+export const CONTACT_CARDS: { label: string; value: string; note: string; email?: string; phones?: boolean }[] = [
   {
     label: "Direct reservations",
     value: "+256 776 401 100 · +256 751 401 198",
+    phones: true,
     note: "Call or WhatsApp either line to book, or email us.",
     email: CONFIG.reservationsEmail,
   },

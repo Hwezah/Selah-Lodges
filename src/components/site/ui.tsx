@@ -5,8 +5,30 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { ChevronLeft } from "@/components/site/icon";
 import { useBooking } from "@/context/booking-context";
+import { CONFIG } from "@/lib/data";
 import type { Currency } from "@/lib/booking";
 import { cn } from "@/lib/utils";
+
+/** "+256 776 401 100" → "tel:+256776401100". */
+export function telHref(phone: string) {
+  return `tel:${phone.replace(/[^+\d]/g, "")}`;
+}
+
+/** Both Selah phone numbers as tap-to-call links, joined by `sep`. */
+export function Phones({ sep = " or ", className }: { sep?: ReactNode; className?: string }) {
+  return (
+    <>
+      {CONFIG.phones.map((p, i) => (
+        <span key={p}>
+          {i > 0 && sep}
+          <a href={telHref(p)} className={cn("whitespace-nowrap font-medium text-gold hover:text-gold-hover", className)}>
+            {p}
+          </a>
+        </span>
+      ))}
+    </>
+  );
+}
 
 /** Page-width container: 1400px max, fluid side padding. */
 export function Container({ className, ...props }: ComponentProps<"div">) {

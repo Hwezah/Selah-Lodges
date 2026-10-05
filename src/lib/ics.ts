@@ -16,7 +16,7 @@ export function downloadIcs(order: Order) {
     `DTEND;VALUE=DATE:${stamp(order.checkOut)}`,
     `SUMMARY:Selah Lodges · ${order.apartment}`,
     "LOCATION:Komamboga | Kyanja\\, Kampala",
-    `DESCRIPTION:Booking ${order.ref}. Check in after 2pm\\, check out by 11am. +256 776 401 100`,
+    `DESCRIPTION:Booking ${order.ref}. Check in after 2pm\\, check out by 11am. +256 776 401 100 / +256 751 401 198`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");

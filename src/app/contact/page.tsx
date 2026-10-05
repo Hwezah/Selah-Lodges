@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/contact/contact-form";
-import { Container } from "@/components/site/ui";
+import { Container, Phones } from "@/components/site/ui";
 import { CONFIG, CONTACT_CARDS } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -29,7 +29,9 @@ export default function ContactPage() {
               <div key={c.label} className="rounded-[14px] border border-stone-200 bg-white p-[clamp(14px,3.4vw,22px)]">
                 <div className="text-[11px] font-semibold uppercase tracking-[.07em] text-stone-500">{c.label}</div>
                 <div className="mt-2 text-[15.5px] font-medium">
-                  {c.email && c.value === c.email ? (
+                  {c.phones ? (
+                    <Phones sep=" · " className="text-stone-900 hover:text-gold" />
+                  ) : c.email && c.value === c.email ? (
                     <a href={`mailto:${c.email}`} className="text-stone-900 hover:text-gold">
                       {c.value}
                     </a>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { LegalPage } from "@/components/site/legal";
+import { Phones } from "@/components/site/ui";
 import { CONFIG } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -203,7 +204,7 @@ export default function PoliciesPage() {
         <br />
         General and privacy requests: <a href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a>
         <br />
-        Phone: {CONFIG.phones.join(", ")}
+        Phone: <Phones sep=", " />
       </p>
     </LegalPage>
   );

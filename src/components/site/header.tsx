@@ -11,6 +11,7 @@ import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
 import { datesLabel, guestsLabel, isoDate } from "@/lib/booking";
 import { APARTMENTS, CONFIG, NAV_ITEMS, PREMISE_PHOTOS } from "@/lib/data";
+import { telHref } from "@/components/site/ui";
 import { cn } from "@/lib/utils";
 
 const iconBtn =
@@ -511,9 +512,11 @@ function Drawer() {
             renewal. More than a place to stay — a space to pause, breathe, and come back to yourself.
           </div>
           <div className="mt-7 grid gap-1.5">
-            <a href="tel:+256776401100" onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
-              +256 776 401 100
-            </a>
+            {CONFIG.phones.map((p) => (
+              <a key={p} href={telHref(p)} onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
+                {p}
+              </a>
+            ))}
             <a href={`mailto:${CONFIG.email}`} onClick={() => togglePanel("drawer")} className="text-[15px] text-stone-50">
               {CONFIG.email}
             </a>

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { PriceRows } from "@/components/booking/price-rows";
 import { Card, Field, TextArea, TextInput } from "@/components/site/field";
 import { WhatsAppIcon } from "@/components/site/icon";
-import { BackLink, GuestStepper } from "@/components/site/ui";
+import { BackLink, GuestStepper, Phones } from "@/components/site/ui";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
 import { datesLabel, guestsLabel, whatsappUrl } from "@/lib/booking";
@@ -215,9 +215,16 @@ export function Checkout() {
               <div className="mt-[18px] overflow-hidden rounded-xl border border-stone-200">
                 <div className="border-b border-stone-200 bg-gold-tint px-[18px] py-4">
                   <div className="text-[11px] font-semibold uppercase tracking-[.07em] text-gold">Send payment to</div>
-                  <div className="mt-[7px] flex flex-wrap items-baseline gap-x-2.5">
-                    <span className="text-[22px] font-semibold tracking-[-.01em]">{CONFIG.tillNumber}</span>
-                    <span className="text-[13.5px] text-gold">{CONFIG.tillName}</span>
+                  <div className="mt-[7px] flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                    {CONFIG.momo.map((m, i) => (
+                      <span key={m.tel} className="flex items-baseline gap-x-2.5">
+                        {i > 0 && <span className="text-[13.5px] text-gold">or</span>}
+                        <a href={`tel:${m.tel}`} className="text-[22px] font-semibold tracking-[-.01em] text-stone-900 hover:text-gold">
+                          {m.network} {m.number}
+                        </a>
+                      </span>
+                    ))}
+                    <span className="text-[13.5px] text-gold">{CONFIG.momoName}</span>
                   </div>
                   <div className="mt-2 text-[13.5px] text-stone-700">
                     Send exactly <strong>{due}</strong> from your phone, then submit the form below.
@@ -319,8 +326,8 @@ export function Checkout() {
             Request booking on WhatsApp
           </button>
           <div className="mt-2 text-xs leading-[1.5] text-stone-500">
-            Sends your dates, guests and total straight to Penny on +256 776 401 100 — she confirms and holds the
-            apartment.
+            Sends your dates, guests and total straight to Penny on WhatsApp — she confirms and holds the apartment.
+            Or call <Phones className="font-normal" />.
           </div>
           <div className="mt-2 text-xs leading-[1.5] text-stone-500">
             Prefer email? Write to{" "}
