@@ -22,15 +22,9 @@ function scrollToStays() {
 export function HomeTop() {
   const { checkIn, checkOut, guests, currency } = useBooking();
   const { panel, togglePanel, closePanels, toast } = useUI();
-  const [where, setWhere] = useState("");
   const [filter, setFilter] = useState<Filter>(FILTERS[0]);
 
-  const q = where.trim().toLowerCase();
-  const visible = APARTMENTS.filter(
-    (a) =>
-      (filter === FILTERS[0] || a.kind === filter) &&
-      (!q || `${a.loc} ${a.name} ${a.kind}`.toLowerCase().includes(q)),
-  );
+  const visible = APARTMENTS.filter((a) => filter === FILTERS[0] || a.kind === filter);
 
   const search = () => {
     if (!checkIn || !checkOut) {
@@ -50,15 +44,11 @@ export function HomeTop() {
       <section>
         <Container>
           <div className="relative z-10 -mt-12 hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2 shadow-panel lg:flex">
-            <label className="min-w-0 flex-[1_1_190px] rounded-xl px-3.5 py-3">
+            {/* Fixed location: both apartments are in the same place, so there's nothing to type. */}
+            <div className="min-w-0 flex-[1_1_190px] px-3.5 py-3">
               <FieldLabel>Where</FieldLabel>
-              <input
-                value={where}
-                onChange={(e) => setWhere(e.target.value)}
-                placeholder="Komamboga, Kyanja…"
-                className="mt-[5px] w-full border-0 bg-transparent text-[14.5px] outline-none"
-              />
-            </label>
+              <div className="mt-1.5 text-[14.5px] text-stone-900">Komamboga, Kyanja</div>
+            </div>
             <button
               type="button"
               data-keep-open
@@ -124,20 +114,16 @@ export function HomeTop() {
             {visible.length === 0 && (
               <div className="col-span-full rounded-2xl border border-stone-200 bg-white px-7 py-10 text-center">
                 <div className="text-base font-semibold">
-                  {q ? `No apartments match “${where.trim()}”.` : "No apartments match this filter."}
-                </div>
-                <div className="mt-1.5 text-sm text-stone-500">
-                  Try Komamboga or Kyanja — or clear the search to see every apartment.
+                  No apartments match this filter.
                 </div>
                 <button
                   type="button"
                   onClick={() => {
-                    setWhere("");
                     setFilter(FILTERS[0]);
                   }}
                   className="mt-[18px] h-10 rounded-[10px] bg-gold px-5 text-[13.5px] font-medium text-stone-50 hover:bg-gold-hover"
                 >
-                  Clear search
+                  Show all apartments
                 </button>
               </div>
             )}
