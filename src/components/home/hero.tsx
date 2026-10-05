@@ -102,7 +102,7 @@ export function Hero() {
             href="/services"
             className="inline-flex h-14 flex-none items-center rounded-full bg-gold-soft px-8 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900"
           >
-            Explore services
+            Explore Services
           </Link>
         </div>
       </div>
