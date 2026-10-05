@@ -38,7 +38,7 @@ export function BookBar() {
           gold ? "bg-stone-50 text-gold" : "bg-gold text-stone-50",
         )}
       >
-        {pathname !== "/" ? "Back to rooms" : atRooms ? "Pick a room to stay" : "Book a room"}
+        {pathname !== "/" ? "Back To Rooms" : atRooms ? "Pick A Room To Stay" : "Book A Room"}
       </Link>
     </div>
   );
