@@ -10,7 +10,7 @@ import { displayName, useAuth } from "@/context/auth-context";
 import { useBooking } from "@/context/booking-context";
 import { useUI } from "@/context/ui-context";
 import { datesLabel, guestsLabel, isoDate } from "@/lib/booking";
-import { APARTMENTS, CONFIG, NAV_ITEMS } from "@/lib/data";
+import { APARTMENTS, CONFIG, NAV_ITEMS, PREMISE_PHOTOS } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const iconBtn =
@@ -386,6 +386,24 @@ function CartMenu() {
   );
 }
 
+/** Tiles of every premises photo gliding left in an endless loop (paused for reduced-motion users). */
+function PhotoGlide() {
+  const tiles = [...PREMISE_PHOTOS, ...PREMISE_PHOTOS];
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-y-2 left-0 flex w-max animate-marquee gap-2 motion-reduce:animate-none"
+      style={{ animationDuration: `${PREMISE_PHOTOS.length * 5}s` }}
+    >
+      {tiles.map((p, i) => (
+        <div key={`${p.src}-${i}`} className="relative aspect-[3/4] h-full flex-none overflow-hidden rounded-[10px] bg-stone-800">
+          <Image src={p.src} alt="" fill sizes="260px" className="object-cover" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Drawer() {
   const { panel, togglePanel, closePanels } = useUI();
   const { money } = useBooking();
@@ -413,17 +431,10 @@ function Drawer() {
           aria-label="Selah Lodges"
           className="fixed top-0 right-0 z-80 h-screen w-[50vw] animate-sheet-in xl:w-[35vw] mportrait:w-screen overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)]"
         >
-          {/* Full-bleed room photo across the top (negative margins cancel the panel padding), darkened
-              so the white logo and close button read on top of it. */}
+          {/* Full-bleed band of premises photos gliding left across the top (negative margins cancel the
+              panel padding), darkened so the white logo and close button read on top of it. */}
           <div className="relative -mx-[clamp(20px,5vw,34px)] -mt-[clamp(22px,5vw,36px)] h-[clamp(300px,46svh,440px)] overflow-hidden bg-stone-900">
-            <Image
-              src="/images/room1-bedroom.jpg"
-              alt="A Selah Lodges bedroom"
-              fill
-              priority
-              sizes="(max-width: 600px) and (orientation: portrait) 100vw, (min-width: 1000px) 35vw, 50vw"
-              className="object-cover"
-            />
+            <PhotoGlide />
             <div className="absolute inset-0 bg-gradient-to-b from-stone-900/70 via-stone-900/45 to-stone-900/70" />
             <button
               type="button"

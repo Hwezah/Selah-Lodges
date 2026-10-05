@@ -142,6 +142,11 @@ export const HOME_PHOTOS: Photo[] = [
   { src: "/images/svc-carwash.jpg", alt: "Building and secure parking" },
 ];
 
+/** Every photo of the premises, once each: the home album plus both apartments and the shared spaces. */
+export const PREMISE_PHOTOS: Photo[] = [...HOME_PHOTOS, ...TOUR_SLIDES].filter(
+  (p, i, all) => all.findIndex((x) => x.src === p.src) === i,
+);
+
 /** Home page tour video. Drop the file at public/videos/selah-tour.mp4. */
 export const TOUR_VIDEO = {
   src: "/videos/selah-tour.mp4",
