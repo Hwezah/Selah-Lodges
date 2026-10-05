@@ -100,7 +100,7 @@ export function Hero() {
           <span className="font-display text-[15px] text-stone-50/70">or</span>
           <Link
             href="/services"
-            className="inline-flex h-14 flex-none items-center rounded-full bg-gold-soft px-8 text-[15px] font-medium text-stone-900 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-tint hover:text-stone-900"
+            className="inline-flex h-14 flex-none items-center rounded-full bg-gold px-8 text-[15px] font-medium text-stone-50 shadow-[0_10px_30px_-12px_rgba(0,0,0,.5)] transition-colors hover:bg-gold-hover hover:text-stone-50"
           >
             Explore Services
           </Link>
