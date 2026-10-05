@@ -413,50 +413,45 @@ function Drawer() {
           aria-label="Selah Lodges"
           className="fixed top-0 right-0 z-80 h-screen w-[50vw] animate-sheet-in xl:w-[35vw] mportrait:w-screen overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)]"
         >
-          {/* Phones: large logo mark centred on top. Wider: mark + name left, close right. The mark is
-              gold artwork, rendered white so it shows on the gold drawer. */}
-          <div className="relative flex flex-col items-center gap-3 pt-1 sm:flex-row sm:justify-between sm:gap-4 sm:pt-0">
-            <Link href="/" onClick={closePanels} aria-label="Selah Lodges home" className="sm:hidden">
-              <Image
-                src="/images/selah-mark.png"
-                alt=""
-                width={72}
-                height={72}
-                className="size-[72px] object-contain brightness-0 invert"
-              />
-            </Link>
-            <Link href="/" onClick={closePanels} className="flex min-w-0 items-center gap-3 text-stone-50 hover:text-stone-50">
-              <Image
-                src="/images/selah-mark.png"
-                alt=""
-                width={36}
-                height={36}
-                className="hidden size-9 flex-none object-contain brightness-0 invert sm:block"
-              />
-              {/* The panel's width follows the screen, so the name scales with it. */}
-              <span className="font-display whitespace-nowrap text-[26px] sm:text-[clamp(18px,2.6vw,26px)]">Selah Lodges</span>
-            </Link>
+          {/* Full-bleed room photo across the top (negative margins cancel the panel padding), darkened
+              so the white logo and close button read on top of it. */}
+          <div className="relative -mx-[clamp(20px,5vw,34px)] -mt-[clamp(22px,5vw,36px)] h-[clamp(300px,46svh,440px)] overflow-hidden bg-stone-900">
+            <Image
+              src="/images/room1-bedroom.jpg"
+              alt="A Selah Lodges bedroom"
+              fill
+              priority
+              sizes="(max-width: 600px) and (orientation: portrait) 100vw, (min-width: 1000px) 35vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-900/70 via-stone-900/45 to-stone-900/70" />
             <button
               type="button"
               onClick={closePanels}
               aria-label="Close"
-              className="absolute -top-1.5 -right-2 grid size-11 flex-none place-items-center text-stone-50 hover:text-gold-soft sm:static sm:-mt-1.5 sm:-mr-2"
+              className="absolute top-[clamp(14px,3vw,24px)] right-[clamp(12px,3vw,24px)] z-10 grid size-11 place-items-center text-stone-50 hover:text-gold-soft"
             >
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="0.9">
                 <path d="M6 6 34 34" />
                 <path d="M34 6 6 34" />
               </svg>
             </button>
-          </div>
-
-          <div className="relative mt-6 aspect-[16/10] w-full overflow-hidden bg-gold-hover">
-            <Image
-              src="/images/room1-bedroom.jpg"
-              alt="A Selah Lodges bedroom"
-              fill
-              sizes="(max-width: 600px) and (orientation: portrait) 100vw, (min-width: 1000px) 35vw, 50vw"
-              className="object-cover"
-            />
+            {/* The mark is gold artwork, rendered white so it shows on the dark photo. */}
+            <Link
+              href="/"
+              onClick={closePanels}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-stone-50 hover:text-stone-50"
+            >
+              <Image
+                src="/images/selah-mark.png"
+                alt=""
+                width={80}
+                height={80}
+                className="size-[clamp(56px,9vw,80px)] object-contain brightness-0 invert mportrait:size-[76px]"
+              />
+              {/* The panel's width follows the screen, so the name scales with it. */}
+              <span className="font-display whitespace-nowrap text-[clamp(20px,2.6vw,30px)] mportrait:text-[30px]">Selah Lodges</span>
+            </Link>
           </div>
 
           <nav className="mt-[30px] grid gap-0.5 xl:hidden" aria-label="Menu">
