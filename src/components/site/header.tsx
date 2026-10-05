@@ -410,7 +410,7 @@ function Drawer() {
           data-keep-open
           role="dialog"
           aria-label="Selah Lodges"
-          className="fixed top-0 right-0 z-80 h-screen w-[35vw] animate-sheet-in mportrait:w-screen overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)]"
+          className="fixed top-0 right-0 z-80 h-screen w-[50vw] animate-sheet-in xl:w-[35vw] mportrait:w-screen overflow-y-auto bg-gold px-[clamp(20px,5vw,34px)] pt-[clamp(22px,5vw,36px)] pb-[100px] text-stone-50 shadow-[-24px_0_60px_-20px_rgba(28,25,23,.45)]"
         >
           {/* Phones: large logo mark centred on top. Wider: mark + name left, close right. The mark is
               gold artwork, rendered white so it shows on the gold drawer. */}
@@ -430,10 +430,10 @@ function Drawer() {
                 alt=""
                 width={36}
                 height={36}
-                className="hidden size-9 flex-none object-contain brightness-0 invert lg:block"
+                className="hidden size-9 flex-none object-contain brightness-0 invert sm:block"
               />
-              {/* The panel is 35vw wide, so the name scales with the screen; the mark joins it from 900px. */}
-              <span className="font-display whitespace-nowrap text-[26px] sm:text-[clamp(17px,2vw,26px)]">Selah Lodges</span>
+              {/* The panel's width follows the screen, so the name scales with it. */}
+              <span className="font-display whitespace-nowrap text-[26px] sm:text-[clamp(18px,2.6vw,26px)]">Selah Lodges</span>
             </Link>
             <button
               type="button"
@@ -453,7 +453,7 @@ function Drawer() {
               src="/images/room1-bedroom.jpg"
               alt="A Selah Lodges bedroom"
               fill
-              sizes="(max-width: 600px) and (orientation: portrait) 100vw, 35vw"
+              sizes="(max-width: 600px) and (orientation: portrait) 100vw, (min-width: 1000px) 35vw, 50vw"
               className="object-cover"
             />
           </div>
