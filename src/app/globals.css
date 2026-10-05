@@ -5,6 +5,18 @@
 @custom-variant mportrait (@media (max-width: 600px) and (orientation: portrait));
 
 /*
+ * Header row width: always wider than the page content (Container: max 1400px, 16–24px gutters).
+ * ~90vw on large screens; on smaller screens, where content nearly fills the width, it keeps a
+ * 10–16px edge instead.
+ */
+@utility w-header {
+  width: min(
+    calc(100vw - 2 * clamp(10px, 2vw, 16px)),
+    max(90vw, calc(min(1400px, calc(100vw - 2 * clamp(16px, 4vw, 24px))) + 32px))
+  );
+}
+
+/*
  * Breakpoints mirror the prototype's width tiers (it switched on
  * window.innerWidth; here they are plain CSS media queries).
  *   xs 520  cart icon always visible

@@ -59,7 +59,8 @@ export function SiteHeader() {
         scrolled ? "border-stone-200 bg-stone-50/85 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex min-h-[68px] max-w-[1400px] items-center gap-[clamp(10px,2vw,28px)] px-[clamp(14px,3vw,24px)]">
+      {/* The header runs wider than the page content (see w-header in globals.css). */}
+      <div className="mx-auto flex min-h-[68px] w-header items-center gap-[clamp(10px,2vw,28px)]">
         <Link
           href="/"
           className="mr-1 flex min-w-0 items-center gap-[9px] text-stone-900 transition-colors hover:text-stone-900 group-data-[over=true]/hdr:text-stone-50"
