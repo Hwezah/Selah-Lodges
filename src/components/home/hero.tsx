@@ -81,7 +81,7 @@ export function Hero() {
       </div>
 
 
-      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[clamp(28px,6vw,96px)]">
+      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[112px] lg:pb-[168px]">
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>
@@ -107,7 +107,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute top-[84px] right-[clamp(16px,4vw,24px)] flex items-center gap-3">
+      {/* Slide dots above the "View photos" pill, bottom center. Lifted on large screens to clear the search bar. */}
+      <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 lg:bottom-20">
         <div className="flex gap-1.5" aria-hidden="true">
           {SLIDES.map((s, i) => (
             <span
@@ -119,7 +120,7 @@ export function Hero() {
         <PhotoButton
           album={HOME_PHOTOS}
           label="View photos"
-          className="rounded-full bg-stone-900/40 px-3 py-1.5 text-[12px] font-medium text-stone-50 backdrop-blur-sm hover:bg-stone-900/60"
+          className="rounded-full bg-stone-900/40 px-4 py-2 text-[12.5px] font-medium text-stone-50 backdrop-blur-sm hover:bg-stone-900/60"
         >
           View photos
         </PhotoButton>
