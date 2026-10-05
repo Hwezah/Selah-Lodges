@@ -80,13 +80,13 @@ export function HomeTop() {
             <button
               type="button"
               onClick={search}
-              className="flex min-h-12 flex-[1_1_140px] items-center justify-center gap-2 rounded-xl bg-gold px-[26px] text-[14.5px] font-medium text-stone-50 hover:bg-gold-hover"
+              aria-label="Search"
+              className="mx-1.5 grid size-16 flex-none place-items-center self-center rounded-full bg-gold text-stone-50 shadow-[0_10px_24px_-10px_rgba(185,151,91,.9)] transition-colors hover:bg-gold-hover"
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m20 20-3.5-3.5" />
               </svg>
-              Search
             </button>
           </div>
 
