@@ -222,6 +222,22 @@ export function AuthDialog({
                 {busy === "google" ? <Spinner /> : <GoogleLogo />}
                 Continue with Google
               </button>
+              {/* Apple sign-in isn't set up yet; shown so guests know it's on the way. */}
+              <button
+                type="button"
+                disabled
+                aria-describedby="apple-soon"
+                className="flex h-[46px] cursor-not-allowed items-center justify-center gap-2.5 rounded-xl border border-stone-200 bg-stone-50 text-[14.5px] font-medium text-stone-400"
+              >
+                <AppleLogo />
+                Continue with Apple
+                <span
+                  id="apple-soon"
+                  className="rounded-full bg-gold-tint px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[.08em] text-gold"
+                >
+                  Coming soon
+                </span>
+              </button>
               <div className="flex items-center gap-3 text-[11.5px] text-stone-400">
                 <span className="h-px flex-1 bg-stone-100" />
                 or with email
@@ -369,6 +385,14 @@ function Spinner({ className }: { className?: string }) {
     <svg className={cn("size-4 animate-spin", className)} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity=".25" strokeWidth="3" />
       <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function AppleLogo() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M16.37 12.62c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.76 1.1 1.67 2.34 2.87 2.3 1.15-.05 1.59-.75 2.98-.75 1.39 0 1.78.75 3 .72 1.24-.02 2.03-1.12 2.78-2.23.88-1.28 1.24-2.52 1.26-2.59-.03-.01-2.42-.93-2.44-3.66zM14.1 5.86c.63-.77 1.06-1.84.94-2.9-.91.04-2.02.61-2.67 1.37-.58.67-1.1 1.76-.96 2.8 1.02.08 2.06-.52 2.69-1.27z" />
     </svg>
   );
 }
