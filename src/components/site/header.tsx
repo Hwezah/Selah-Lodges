@@ -166,7 +166,7 @@ function AccountMenu() {
         onClick={() => togglePanel("account")}
         aria-label="Account"
         aria-expanded={open}
-        className={user ? "ml-1 grid size-8 flex-none place-items-center rounded-full bg-gold font-display text-[14px] uppercase text-stone-50 ring-2 ring-white/70 hover:bg-gold-hover" : iconBtn}
+        className={user ? "ml-1 grid size-8 flex-none place-items-center rounded-full bg-gold text-[13.5px] font-medium uppercase leading-none text-stone-50 ring-2 ring-white/70 hover:bg-gold-hover" : iconBtn}
       >
         {user ? name.charAt(0) : personIcon}
       </button>
@@ -184,7 +184,7 @@ function AccountMenu() {
                 </div>
               </div>
               <div className="px-4">
-                <div className="relative -mt-8 grid size-16 place-items-center rounded-full bg-gold font-display text-[28px] uppercase text-stone-50 ring-4 ring-white">
+                <div className="relative -mt-8 grid size-16 place-items-center rounded-full bg-gold text-[26px] font-medium uppercase leading-none text-stone-50 ring-4 ring-white">
                   {name.charAt(0)}
                 </div>
                 <div className="mt-2.5 truncate font-display text-[21px] leading-tight">{name}</div>
