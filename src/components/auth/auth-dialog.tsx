@@ -11,6 +11,9 @@ import { cn } from "@/lib/utils";
 
 export type AuthMode = "signin" | "signup" | "forgot" | "reset" | "check-email";
 
+type Problem = { text: string; action?: { label: string; run: () => void } };
+type EmailStatus = "none" | "oauth" | "unconfirmed" | "password";
+
 const COPY: Record<AuthMode, { title: string; sub: string }> = {
   signin: { title: "Welcome back", sub: "Sign in to keep your trips and receipts in one place." },
   signup: { title: "Create your account", sub: "Save your bookings and check out faster next time." },
@@ -50,7 +53,7 @@ export function AuthDialog({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState<null | "form" | "google">(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Problem | null>(null);
   const [sentTo, setSentTo] = useState<{ email: string; reason: "confirm" | "reset" } | null>(null);
 
   const switchMode = (m: AuthMode) => {
@@ -69,10 +72,57 @@ export function AuthDialog({
     setError(null);
     const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: callback(next) } });
     if (error) {
-      setError(friendly(error.message));
+      setError({ text: friendly(error.message) });
       setBusy(null);
     }
     // On success the browser leaves for Google, so keep the spinner.
+  };
+
+  /**
+   * Supabase gives the same "invalid login credentials" for a wrong password and for an email with no account.
+   * Ask the auth_email_status function (supabase/migrations) which it is. If the function isn't installed,
+   * fall back to the generic message.
+   */
+  const explainFailedSignIn = async (address: string): Promise<Problem> => {
+    const supabase = getSupabaseBrowser();
+    const { data, error } = supabase
+      ? await supabase.rpc("auth_email_status", { p_email: address })
+      : { data: null, error: true };
+    const status = (error ? null : data) as EmailStatus | null;
+    if (status === "none")
+      return {
+        text: `There's no Selah account for ${address} yet.`,
+        action: { label: "Create an account", run: () => switchMode("signup") },
+      };
+    if (status === "oauth")
+      return { text: "This email signs in with Google. Use \u201cContinue with Google\u201d above." };
+    if (status === "unconfirmed")
+      return {
+        text: "This account isn't confirmed yet. Open the link we emailed you, then sign in.",
+        action: { label: "Resend the link", run: () => resendConfirmation(address) },
+      };
+    if (status === "password")
+      return {
+        text: "That password isn't right for this account.",
+        action: { label: "Reset your password", run: () => switchMode("forgot") },
+      };
+    return { text: friendly("invalid login credentials") };
+  };
+
+  const resendConfirmation = async (address: string) => {
+    const supabase = getSupabaseBrowser();
+    if (!supabase) return;
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: address,
+      options: { emailRedirectTo: callback(next) },
+    });
+    if (error) {
+      setError({ text: friendly(error.message) });
+      return;
+    }
+    setSentTo({ email: address, reason: "confirm" });
+    onModeChange("check-email");
   };
 
   const submit = async (e: FormEvent) => {
@@ -81,14 +131,20 @@ export function AuthDialog({
     if (!supabase) return;
     setError(null);
     if ((mode === "signup" || mode === "reset") && password.length < 8) {
-      setError("Please use a password with at least 8 characters.");
+      setError({ text: "Please use a password with at least 8 characters." });
       return;
     }
     setBusy("form");
     try {
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-        if (error) throw error;
+        if (error) {
+          if (error.message.toLowerCase().includes("invalid login credentials")) {
+            setError(await explainFailedSignIn(email.trim()));
+            return;
+          }
+          throw error;
+        }
         toast("ok", "Signed in", "Welcome back to Selah Lodges.");
         onSignedIn();
       } else if (mode === "signup") {
@@ -121,7 +177,7 @@ export function AuthDialog({
         onSignedIn();
       }
     } catch (err) {
-      setError(friendly(err instanceof Error ? err.message : String(err)));
+      setError({ text: friendly(err instanceof Error ? err.message : String(err)) });
     } finally {
       setBusy(null);
     }
@@ -132,7 +188,11 @@ export function AuthDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="gap-0 p-0" onOpenAutoFocus={(e) => mode === "check-email" && e.preventDefault()}>
+      <DialogContent
+        className="gap-0 p-0"
+        // Same inset as the content, vertically centred on the 26px logo row.
+        closeClassName="top-[calc(clamp(22px,5vw,28px)-10px)] right-[clamp(20px,5vw,28px)]"
+        onOpenAutoFocus={(e) => mode === "check-email" && e.preventDefault()}>
         <div className="px-[clamp(20px,5vw,28px)] pt-[clamp(22px,5vw,28px)]">
           <div className="flex items-center gap-[9px]">
             <Image src="/images/selah-mark.png" alt="" width={26} height={26} className="size-[26px] object-contain" />
@@ -224,7 +284,15 @@ export function AuthDialog({
 
               {error && (
                 <div role="alert" className="rounded-[10px] bg-red-50 px-3 py-2.5 text-[13px] leading-[1.45] text-red-700">
-                  {error}
+                  {error.text}
+                  {error.action && (
+                    <>
+                      {" "}
+                      <button type="button" onClick={error.action.run} className="font-medium underline underline-offset-2 hover:text-red-900">
+                        {error.action.label}
+                      </button>
+                    </>
+                  )}
                 </div>
               )}
 

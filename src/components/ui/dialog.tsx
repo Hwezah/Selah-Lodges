@@ -38,8 +38,9 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  closeClassName,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & { showCloseButton?: boolean }) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { showCloseButton?: boolean; closeClassName?: string }) {
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -55,9 +56,12 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="absolute top-3 right-3 grid size-9 place-items-center rounded-full text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-900 focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none"
+            className={cn(
+              "absolute top-3 right-3 grid size-12 place-items-center rounded-full bg-stone-100 text-stone-700 transition-colors hover:bg-stone-200 hover:text-stone-900 focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:outline-none",
+              closeClassName,
+            )}
           >
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
               <path d="M5 5 17 17" />
               <path d="M17 5 5 17" />
             </svg>

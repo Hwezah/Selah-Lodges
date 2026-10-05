@@ -64,7 +64,10 @@ public/images/            client photos (compressed JPEG)
 3. **Authentication → Sign In / Providers → Google:** enable it with a Google Cloud OAuth client
    (authorised redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`). Email + password is on by
    default; keep "Confirm email" on.
-4. **Make an admin** (SQL editor):
+4. **Clear sign-in errors** (SQL editor): run `supabase/migrations/20261005000000_auth_email_status.sql`. It lets
+   the sign-in window say "no account for this email", "wrong password", "not confirmed yet" or "uses Google"
+   instead of Supabase's generic "invalid login credentials". Without it the generic message shows.
+5. **Make an admin** (SQL editor):
    ```sql
    update auth.users set raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'
    where email = 'owner@example.com';
