@@ -37,9 +37,9 @@ export default function AboutPage() {
           </div>
           <PhotoButton
             album={[{ src: "/images/penny.jpg", alt: "Penny Baluti, founder" }]}
-            className="relative h-[clamp(240px,34vw,440px)] w-full min-w-0 flex-[1_1_300px] overflow-hidden rounded-[18px] bg-stone-100"
+            className="relative h-[clamp(320px,40vw,560px)] w-full min-w-0 flex-[1_1_300px] overflow-hidden rounded-[18px] bg-stone-100"
           >
-            <Image src="/images/penny.jpg" alt="Penny Baluti, founder" fill priority sizes="(min-width: 640px) 45vw, 100vw" className="object-cover object-[center_30%]" />
+            <Image src="/images/penny.jpg" alt="Penny Baluti, founder" fill priority sizes="(min-width: 640px) 45vw, 100vw" className="object-cover object-[center_62%]" />
           </PhotoButton>
         </div>
 
