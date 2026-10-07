@@ -80,9 +80,9 @@ export function HomeTop() {
 
       <section>
         <Container>
-          <div className="relative z-10 -mt-12 hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2 shadow-panel lg:flex">
+          <div className="relative z-10 -mt-12 hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2.5 shadow-panel lg:flex">
             {/* Fixed location: both apartments are in the same place, so there's nothing to type. */}
-            <div className="min-w-0 flex-[1_1_190px] px-3.5 py-3">
+            <div className="min-w-0 flex-[1_1_190px] px-4 py-[18px]">
               <FieldLabel>Where</FieldLabel>
               <div className="mt-1.5 text-[14.5px] text-stone-900">Komamboga, Kyanja</div>
             </div>
@@ -90,14 +90,14 @@ export function HomeTop() {
               type="button"
               data-keep-open
               onClick={() => togglePanel("cal-hero")}
-              className="min-w-0 flex-[1_1_150px] rounded-xl px-3.5 py-3 text-left hover:bg-stone-50"
+              className="min-w-0 flex-[1_1_150px] rounded-xl px-4 py-[18px] text-left hover:bg-stone-50"
             >
               <FieldLabel>Dates</FieldLabel>
               <div className={cn("mt-1.5 text-[14.5px]", checkIn ? "text-stone-900" : "text-stone-400")}>
                 {datesLabel(checkIn, checkOut)}
               </div>
             </button>
-            <div className="flex min-w-0 flex-[1_1_210px] items-center justify-between gap-2 rounded-xl px-3.5 py-3">
+            <div className="flex min-w-0 flex-[1_1_210px] items-center justify-between gap-2 rounded-xl px-4 py-[18px]">
               <div className="min-w-0">
                 <FieldLabel>Guests</FieldLabel>
                 <div className="mt-1.5 whitespace-nowrap text-[14.5px]">{guestsLabel(guests)}</div>
