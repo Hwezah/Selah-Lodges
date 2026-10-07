@@ -12,20 +12,36 @@ export function showsBookBar(pathname: string) {
   return !pathname.startsWith("/checkout");
 }
 
-/** Sticky bottom "Book a room" bar, mobile portrait only (< 640px). */
+/**
+ * Bottom "Book a room" bar, phones only (< 640px). It slides in while the visitor scrolls, stays a few
+ * seconds after they stop (longer while they're touching or focused on it), then slides away so it doesn't
+ * take space. It stays put while the side menu or a side panel is open.
+ */
 export function BookBar() {
   const pathname = usePathname();
   const { panel, closePanels } = useUI();
   const atRooms = useRoomsInView(pathname);
+  const [held, setHeld] = useState(false);
+  const scrolled = useScrollActivity(pathname, held);
   if (!showsBookBar(pathname)) return null;
   const gold = panel === "drawer";
+  // The side menu and the cart/account panels keep it showing for as long as they're open.
+  const inPanel = panel === "drawer" || panel === "cart" || panel === "account";
+  const shown = inPanel || scrolled;
 
   return (
     <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-85 border-t px-3.5 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] backdrop-blur-md sm:hidden",
+        "fixed inset-x-0 bottom-0 z-85 border-t px-3.5 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] backdrop-blur-md transition-transform duration-300 ease-out motion-reduce:transition-none sm:hidden",
         gold ? "border-stone-50/20 bg-gold" : "border-stone-200 bg-stone-50/95",
+        !shown && "pointer-events-none translate-y-full",
       )}
+      aria-hidden={!shown || undefined}
+      inert={!shown}
+      onPointerEnter={() => setHeld(true)}
+      onPointerLeave={() => setHeld(false)}
+      onFocus={() => setHeld(true)}
+      onBlur={() => setHeld(false)}
       data-keep-open
     >
       <Link
@@ -42,6 +58,29 @@ export function BookBar() {
       </Link>
     </div>
   );
+}
+
+const HIDE_AFTER_MS = 3000;
+
+/** True while the page is scrolling and for a few seconds after; `held` keeps it true. Resets per page. */
+function useScrollActivity(pathname: string, held: boolean) {
+  const [active, setActive] = useState(false);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const onScroll = () => {
+      setActive(true);
+      clearTimeout(timer);
+      if (!held) timer = setTimeout(() => setActive(false), HIDE_AFTER_MS);
+    };
+    // Letting go of the bar starts the countdown again.
+    if (!held) timer = setTimeout(() => setActive(false), HIDE_AFTER_MS);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [pathname, held]);
+  return active;
 }
 
 /**
