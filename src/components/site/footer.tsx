@@ -18,6 +18,12 @@ export function SiteFooter() {
           </Link>
           <span>© 2026 Selah Lodges</span>
         </div>
+        <div className="text-[12.5px] text-stone-400">
+          Website done by Hwezah |{" "}
+          <a href="tel:+256742696353" className="text-stone-400 hover:text-stone-900">
+            0742696353
+          </a>
+        </div>
       </div>
     </footer>
   );
