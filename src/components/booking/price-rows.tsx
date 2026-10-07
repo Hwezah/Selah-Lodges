@@ -10,7 +10,7 @@ export function PriceRows() {
     ...(t.clean ? [{ label: "Cleaning fee", value: money(t.clean) }] : []),
     ...(t.service ? [{ label: "Service fee", value: money(t.service) }] : []),
     ...(t.tax ? [{ label: "Occupancy tax", value: money(t.tax) }] : []),
-    ...(cartItems.length ? [{ label: `Trip extras (${cartItems.length})`, value: "Quoted on booking" }] : []),
+    ...cartItems.map((c) => ({ label: c.title, value: money(c.amount ?? 0) })),
   ];
   return (
     <div className="grid gap-2.5">

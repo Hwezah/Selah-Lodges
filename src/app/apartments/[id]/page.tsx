@@ -3,11 +3,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { BookingCard } from "@/components/booking/booking-card";
+import { RoomReviews } from "@/components/reviews/room-reviews";
 import { AlbumChip } from "@/components/site/album-chip";
 import { SpecIcon } from "@/components/site/icon";
 import { PhotoButton } from "@/components/site/lightbox";
 import { BackLink, Container } from "@/components/site/ui";
-import { APARTMENTS, CONFIG, fullSpecs, listedAmenities } from "@/lib/data";
+import { APARTMENTS, CONFIG, REVIEWS, fullSpecs, listedAmenities } from "@/lib/data";
 
 export function generateStaticParams() {
   return APARTMENTS.map((a) => ({ id: a.id }));
@@ -83,6 +84,11 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
                 </div>
               ))}
             </div>
+            <div className="my-8 h-px bg-stone-200" />
+            <div data-m-center className="text-[13px] font-semibold uppercase tracking-[.06em] text-stone-500">
+              Guest reviews
+            </div>
+            <RoomReviews apartmentId={a.id} apartmentName={a.name} curated={REVIEWS} />
             <div className="my-8 h-px bg-stone-200" />
             <div className="flex items-center gap-[13px] rounded-[14px] border border-stone-200 bg-white p-[clamp(12px,3vw,18px)]">
               <Image src="/images/penny.jpg" alt="Penny Baluti" width={54} height={54} className="size-[54px] flex-none rounded-full object-cover object-top" />

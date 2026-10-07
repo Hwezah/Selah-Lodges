@@ -245,33 +245,48 @@ export type Service = {
   title: string;
   meta: string;
   body: string;
+  /** Label for things without a fee, e.g. "Nearby". */
   price: string;
+  /** Fee for the whole stay in USD (prices are stored in USD), added to the total when the guest picks it. */
+  amount?: number;
   image: string;
 };
+
+/** "USh 20,000 per stay" for a paid extra, or the plain label (e.g. "Nearby"). */
+export function servicePrice(s: Service, money: (usd: number) => string) {
+  return s.amount ? `${money(s.amount)} per stay` : s.price;
+}
+
+/** Fee for each extra service, in Ugandan shillings. */
+const EXTRA_FEE_UGX = 20000;
+const extraFee = EXTRA_FEE_UGX / CONFIG.ugxRate;
 
 export const SERVICES: Service[] = [
   {
     cat: "Services",
     title: "Laundry Services",
-    meta: "Priced by quantity",
-    body: "Keep your wardrobe fresh without the hassle during your stay. Pricing is provided when you book.",
-    price: "Quoted on booking",
+    meta: "Washed, dried and folded",
+    body: "Keep your wardrobe fresh without the hassle during your stay. Washed, dried and folded for you.",
+    price: "",
+    amount: extraFee,
     image: "/images/svc-laundry.jpg",
   },
   {
     cat: "Services",
     title: "Cleaning Services",
-    meta: "Priced by room size & frequency",
+    meta: "Mid-stay clean",
     body: "A fresh, tidy space throughout your stay, so your room is always comfortable and well-maintained.",
-    price: "Quoted on booking",
+    price: "",
+    amount: extraFee,
     image: "/images/svc-cleaning.jpg",
   },
   {
     cat: "Services",
     title: "Car Wash Service",
-    meta: "Priced by vehicle size",
-    body: "Keep your vehicle spotless while you relax at Selah Lodges. Pricing depends on the type and size of vehicle.",
-    price: "Quoted on booking",
+    meta: "Wash and dry",
+    body: "Keep your vehicle spotless while you relax at Selah Lodges.",
+    price: "",
+    amount: extraFee,
     image: "/images/svc-carwash.jpg",
   },
   {
