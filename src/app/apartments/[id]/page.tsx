@@ -7,6 +7,7 @@ import { RoomReviews } from "@/components/reviews/room-reviews";
 import { AlbumChip } from "@/components/site/album-chip";
 import { SpecIcon } from "@/components/site/icon";
 import { PhotoButton } from "@/components/site/lightbox";
+import { PhotoCarousel } from "@/components/site/photo-carousel";
 import { BackLink, Container } from "@/components/site/ui";
 import { APARTMENTS, CONFIG, REVIEWS, fullSpecs, listedAmenities } from "@/lib/data";
 
@@ -108,6 +109,9 @@ export default async function ApartmentPage(props: PageProps<"/apartments/[id]">
           <BookingCard apartmentId={a.id} />
         </div>
       </Container>
+
+      {/* Edge-to-edge photo strip that drifts on its own, sitting directly on the footer. */}
+      <PhotoCarousel photos={a.gallery} />
     </main>
   );
 }

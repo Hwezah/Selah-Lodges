@@ -75,48 +75,51 @@ export function HomeTop() {
 
   return (
     <>
-      {/* Full-bleed photo hero (80% of the screen on phones, full height elsewhere). */}
-      <Hero />
+      {/* Full-bleed photo hero. On large screens the search strip sits along its bottom edge, so the hero
+          ends where the strip ends. */}
+      <Hero>
+        <Container className="text-stone-900">
+              <div className="relative z-10 hidden flex-wrap items-stretch gap-1 rounded-t-2xl border border-b-0 border-stone-200 bg-white p-2.5 lg:flex">
+                {/* Fixed location: both apartments are in the same place, so there's nothing to type. */}
+                <div className="min-w-0 flex-[1_1_190px] px-4 py-[18px]">
+                  <FieldLabel>Where</FieldLabel>
+                  <div className="mt-1.5 text-[14.5px] text-stone-900">Komamboga, Kyanja</div>
+                </div>
+                <button
+                  type="button"
+                  data-keep-open
+                  onClick={() => togglePanel("cal-hero")}
+                  className="min-w-0 flex-[1_1_150px] rounded-xl px-4 py-[18px] text-left hover:bg-stone-50"
+                >
+                  <FieldLabel>Dates</FieldLabel>
+                  <div className={cn("mt-1.5 text-[14.5px]", checkIn ? "text-stone-900" : "text-stone-400")}>
+                    {datesLabel(checkIn, checkOut)}
+                  </div>
+                </button>
+                <div className="flex min-w-0 flex-[1_1_210px] items-center justify-between gap-2 rounded-xl px-4 py-[18px]">
+                  <div className="min-w-0">
+                    <FieldLabel>Guests</FieldLabel>
+                    <div className="mt-1.5 whitespace-nowrap text-[14.5px]">{guestsLabel(guests)}</div>
+                  </div>
+                  <GuestStepper size="lg" />
+                </div>
+                <button
+                  type="button"
+                  onClick={search}
+                  aria-label="Search"
+                  className="mx-1.5 grid size-16 flex-none place-items-center self-center rounded-full bg-gold text-stone-50 shadow-[0_10px_24px_-10px_rgba(185,151,91,.9)] transition-colors hover:bg-gold-hover"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg>
+                </button>
+              </div>
+        </Container>
+      </Hero>
 
       <section>
         <Container>
-          <div className="relative z-10 -mt-12 hidden flex-wrap items-stretch gap-1 rounded-2xl border border-stone-200 bg-white p-2.5 shadow-panel lg:flex">
-            {/* Fixed location: both apartments are in the same place, so there's nothing to type. */}
-            <div className="min-w-0 flex-[1_1_190px] px-4 py-[18px]">
-              <FieldLabel>Where</FieldLabel>
-              <div className="mt-1.5 text-[14.5px] text-stone-900">Komamboga, Kyanja</div>
-            </div>
-            <button
-              type="button"
-              data-keep-open
-              onClick={() => togglePanel("cal-hero")}
-              className="min-w-0 flex-[1_1_150px] rounded-xl px-4 py-[18px] text-left hover:bg-stone-50"
-            >
-              <FieldLabel>Dates</FieldLabel>
-              <div className={cn("mt-1.5 text-[14.5px]", checkIn ? "text-stone-900" : "text-stone-400")}>
-                {datesLabel(checkIn, checkOut)}
-              </div>
-            </button>
-            <div className="flex min-w-0 flex-[1_1_210px] items-center justify-between gap-2 rounded-xl px-4 py-[18px]">
-              <div className="min-w-0">
-                <FieldLabel>Guests</FieldLabel>
-                <div className="mt-1.5 whitespace-nowrap text-[14.5px]">{guestsLabel(guests)}</div>
-              </div>
-              <GuestStepper size="lg" />
-            </div>
-            <button
-              type="button"
-              onClick={search}
-              aria-label="Search"
-              className="mx-1.5 grid size-16 flex-none place-items-center self-center rounded-full bg-gold text-stone-50 shadow-[0_10px_24px_-10px_rgba(185,151,91,.9)] transition-colors hover:bg-gold-hover"
-            >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-3.5-3.5" />
-              </svg>
-            </button>
-          </div>
-
           {panel === "cal-hero" && (
             <div className="mt-4 flex justify-center" data-keep-open>
               <div className="w-full max-w-[380px] animate-sheet-in rounded-2xl border border-stone-200 bg-white p-4 shadow-panel">

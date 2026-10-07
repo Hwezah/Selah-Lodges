@@ -18,8 +18,9 @@ export default function HomePage() {
 
       <VideoShowcase {...TOUR_VIDEO} available={videoReady} slides={TOUR_SLIDES} />
 
-      <section data-reveal id="experience">
-        <Container className="pt-[clamp(48px,8vw,84px)]">
+      {/* A tinted band sitting directly under the video, so the two read as one block. */}
+      <section data-reveal id="experience" className="bg-gold-tint">
+        <Container className="py-[clamp(48px,8vw,84px)]">
           <div data-m-center>
             <h2 className="font-display max-w-[22ch] text-[clamp(27px,5.2vw,40px)] tracking-[-.015em]">
               Every One-Bed Apartment includes

@@ -24,7 +24,7 @@ const HOLD_MS = 5500;
  * full height on wider screens. The next photo is mounted ahead of time so each
  * change is a smooth fade, never a blank frame.
  */
-export function Hero() {
+export function Hero({ children }: { children?: React.ReactNode }) {
   const [index, setIndex] = useState(0);
   const count = SLIDES.length;
 
@@ -81,7 +81,7 @@ export function Hero() {
       </div>
 
 
-      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[112px] lg:pb-[168px]">
+      <div data-m-center className="mx-auto w-full max-w-[1400px] px-[clamp(16px,4vw,24px)] pb-[112px] lg:pb-6">
         <p className="max-w-[48ch] text-[15px] leading-[1.6] text-stone-50/90 sm:text-[17px]">
           Beautifully furnished one-bed apartments — modern design in serene surroundings, 30 minutes from Kampala.
         </p>
@@ -107,8 +107,8 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Slide dots above the "View photos" pill, bottom center. Lifted on large screens to clear the search bar. */}
-      <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 lg:bottom-20">
+      {/* Slide dots above the "View photos" pill, bottom center. On large screens they sit just above the search strip. */}
+      <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 lg:static lg:mb-6">
         <div className="flex gap-1.5" aria-hidden="true">
           {SLIDES.map((s, i) => (
             <span
@@ -125,6 +125,7 @@ export function Hero() {
           View photos
         </PhotoButton>
       </div>
+      {children}
     </section>
   );
 }
