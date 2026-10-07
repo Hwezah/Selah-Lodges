@@ -12,9 +12,10 @@ export const CONFIG = {
   adminWhatsApp: "256751401198",
   whatsappDisplay: "+256 751 401 198",
   ugxRate: 3800,
-  cleaningFee: 10,
-  serviceFeePct: 11,
-  taxPct: 7.45,
+  // No extra charges: guests pay nights × nightly rate. Set any of these to add a line to the total.
+  cleaningFee: 0,
+  serviceFeePct: 0,
+  taxPct: 0,
   enableSplitPay: true,
   // Placeholder availability until bookings live in a database.
   showBlockedDates: true,
